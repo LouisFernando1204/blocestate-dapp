@@ -2,10 +2,10 @@ import { Route, Routes } from "react-router-dom"
 import Footer from "./components/fixed/Footer"
 import Navbar from "./components/fixed/Navbar"
 import AuctionDetail from "./views/AuctionDetail"
-import CreateAuction from "./views/CreateAuction"
 import Verification from "./views/Verification"
 import Home from "./views/Home"
 import Auction from "./views/Auction"
+import { CreateAuction } from "./views/CreateAuction"
 
 function App() {
 
