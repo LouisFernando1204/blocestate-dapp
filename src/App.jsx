@@ -14,7 +14,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/auction" element={<Auction />} />
+        <Route path="/auction" element={<Verification />} />
         <Route path="/auction/:id" element={<AuctionDetail />} />
         <Route path="/create_auction" element={<CreateAuction />} />
         <Route path="/verification" element={<Verification />} />
