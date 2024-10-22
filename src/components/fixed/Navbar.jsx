@@ -1,8 +1,8 @@
 import { navList } from "../../utils/list";
-import plug from "../../assets/plug.png"
+import plug from "../../assets/plug.png";
+import { truncate } from "../../lib/utils";
 
-const Navbar = () => {
-
+const Navbar = ({ handleConnect, principal }) => {
   return (
     <div
       className={`-mx-10 bg-darkBrown text-white border-b border-n-6 shadow-xl`}
@@ -25,10 +25,22 @@ const Navbar = () => {
             ))}
           </div>
         </nav>
-        <button className="bg-white p-3 rounded-xl hover:scale-105 duration-200 flex flex-row space-x-1 items-center">
-            <img src={plug} alt="plug" className="h-7"/>
+        {principal ? (
+          <button
+            className="bg-white p-3 rounded-xl hover:scale-105 duration-200 flex flex-row space-x-1 items-center"
+          >
+            <img src={plug} alt="plug" className="h-7" />
+            <h1 className="text-black font-semibold">{truncate(principal, 4, 4, 11)}</h1>
+          </button>
+        ) : (
+          <button
+            onClick={() => handleConnect()}
+            className="bg-white p-3 rounded-xl hover:scale-105 duration-200 flex flex-row space-x-1 items-center"
+          >
+            <img src={plug} alt="plug" className="h-7" />
             <h1 className="text-black font-semibold">Connect Wallet</h1>
-        </button>
+          </button>
+        )}
       </div>
     </div>
   );
