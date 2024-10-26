@@ -8,6 +8,7 @@ const Verification = () => {
   const [capturedFace, setCapturedFace] = useState(null); // State for face image
   const [ktpActive, setKtpActive] = useState(false);
   const [faceActive, setFaceActive] = useState(false);
+  const [verificationEnabled, setVerificationEnabled] = useState(false); // State for showing the verification button
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,49 +61,41 @@ const Verification = () => {
         setFaceActive(false); // Turn off the face camera after capturing
       }
 
-      // Pass this `file` to Pinata for uploading
-      console.log(file);
+      // Check if both images are captured
+      if (capturedKTP && capturedFace) {
+        setVerificationEnabled(true); // Enable verification button
+      }
     }, "image/jpeg"); // Specify that the image should be in JPEG format
   };
 
-  // Navigate to the next page if both images are captured
-  useEffect(() => {
-    if (capturedKTP && capturedFace) {
-      // setTimeout(() => navigate("/next-page")); // Navigate after a short delay
-    }
-  }, [capturedKTP, capturedFace, navigate]);
+  // Navigate to the next page if verification is clicked
+  const handleVerification = () => {
+    // Perform the verification process, then navigate
+    navigate("/next-page");
+  };
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
       {/* Left Side - Face Capture */}
       <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-4">
-        <button
-          onClick={() => {
-            setFaceActive(true);
-            setKtpActive(false); // Ensure only one camera is active at a time
-          }}
-          className="bg-blue-500 text-white py-2 px-4 rounded mb-4"
-        >
-          Toggle Face Camera
-        </button>
-
-        <div className="relative w-full h-96">
+        {/* Rounded div for Face Capture */}
+        <div className="relative w-full h-96 flex justify-center rounded-full border-4 border-blue-300 overflow-hidden mb-4">
           {/* If no face is captured, show the camera or a black screen */}
           {!capturedFace ? (
             faceActive ? (
               <video
                 ref={videoRef}
                 autoPlay
-                className="w-full h-full object-cover rounded-full" // Show the face capture
+                className="w-96 h-full object-cover rounded-full" // Show the face capture
               />
             ) : (
-              <div className="w-full h-full bg-black rounded-full" /> // Black div when no image is captured
+              <div className="w-96 h-full bg-black rounded-full" /> // Black div when no image is captured
             )
           ) : (
             <img
-              src={capturedFace}
+              src={URL.createObjectURL(capturedFace)}
               alt="Captured Face"
-              className="w-full h-full object-cover rounded-full" // Show the captured face image
+              className="w-96 h-full object-cover rounded-full" // Show the captured face image
             />
           )}
           <canvas
@@ -114,26 +107,27 @@ const Verification = () => {
         {faceActive && (
           <button
             onClick={() => captureImage("face")}
-            className="bg-green-500 text-white py-2 px-4 rounded mt-4"
+            className="bg-green-500 text-white py-2 px-4 rounded mb-4"
           >
             Capture Face Image
           </button>
         )}
+
+        <button
+          onClick={() => {
+            setFaceActive(true);
+            setKtpActive(false); // Ensure only one camera is active at a time
+          }}
+          className="bg-blue-500 text-white py-2 px-4 rounded"
+        >
+          Toggle Face Camera
+        </button>
       </div>
 
       {/* Right Side - KTP Capture */}
       <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-4">
-        <button
-          onClick={() => {
-            setKtpActive(true);
-            setFaceActive(false); // Ensure only one camera is active at a time
-          }}
-          className="bg-red-500 text-white py-2 px-4 rounded mb-4"
-        >
-          Toggle KTP Camera
-        </button>
-
-        <div className="relative w-full h-96">
+        {/* Rounded div for KTP Capture */}
+        <div className="relative w-full h-96 flex justify-center rounded-lg border-4 border-red-300 overflow-hidden mb-4">
           {/* If no KTP is captured, show the camera or a black screen */}
           {!capturedKTP ? (
             ktpActive ? (
@@ -143,13 +137,13 @@ const Verification = () => {
                 className="w-full h-full object-cover" // Show the KTP capture
               />
             ) : (
-              <div className="w-full h-full bg-black " /> // Black div when no image is captured
+              <div className="w-full h-full bg-black" /> // Black div when no image is captured
             )
           ) : (
             <img
-              src={capturedKTP}
+              src={URL.createObjectURL(capturedKTP)}
               alt="Captured KTP"
-              className="w-full h-full object-cover " // Show the captured KTP image
+              className="w-full h-full object-cover" // Show the captured KTP image
             />
           )}
           <canvas
@@ -161,12 +155,34 @@ const Verification = () => {
         {ktpActive && (
           <button
             onClick={() => captureImage("ktp")}
-            className="bg-green-500 text-white py-2 px-4 rounded mt-4"
+            className="bg-green-500 text-white py-2 px-4 rounded mb-4"
           >
             Capture KTP Image
           </button>
         )}
+
+        <button
+          onClick={() => {
+            setKtpActive(true);
+            setFaceActive(false); // Ensure only one camera is active at a time
+          }}
+          className="bg-red-500 text-white py-2 px-4 rounded"
+        >
+          Toggle KTP Camera
+        </button>
       </div>
+
+      {/* Show verification button if both images are captured */}
+      {capturedKTP && capturedFace && (
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+          <button
+            onClick={handleVerification}
+            className="bg-blue-600 text-white py-2 px-6 rounded-lg"
+          >
+            Verify
+          </button>
+        </div>
+      )}
     </div>
   );
 };
