@@ -110,12 +110,11 @@ const Auction = () => {
               </div>
             </div>
           </section>
-
-          <div className="flex flex-col items-center mx-auto w-full relative overflow-hidden h-[20rem] lg:h-[40rem] px-8 sm:px-10">
+          <div className="flex flex-col items-center mx-auto w-full relative overflow-hidden h-[30rem] sm:h-[30rem] md:h-[40rem] px-4 sm:px-8">
             <h1 className="text-3xl font-semibold text-gray-900 text-center">
               Discover Property Auctions Worldwide, Secure and Easy
             </h1>
-            <p className="text-lg font-light text-gray-500 text-center">
+            <p className="mt-4 md:mt-2 text-lg font-light text-gray-500 text-center">
               Empowered by blockchain, find and bid on properties seamlessly from anywhere in the world.
             </p>
 

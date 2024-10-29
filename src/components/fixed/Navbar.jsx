@@ -16,11 +16,15 @@ const Navbar = () => {
           </a>
 
           <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <button className="bg-white p-2 md:p-3 rounded-xl hover:scale-105 duration-200 flex flex-row space-x-1 items-center gap-2">
+            <button className="relative bg-white p-2 md:p-3.5 rounded-xl hover:scale-105 duration-200 flex items-center gap-2">
+              <span className="animate-ping absolute -top-1 -right-1 h-3 w-3 rounded-full bg-amber-600 opacity-75"></span>
+              <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-amber-700"></span>
+
               <img src={plug} alt="plug" className="h-8" />
               <h1 className="text-black font-semibold">Connect Wallet</h1>
             </button>
-            
+
+
             <button data-collapse-toggle="navbar-sticky" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-sticky" aria-expanded="false">
               <span className="sr-only">Open main menu</span>
               <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
@@ -47,7 +51,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      
+
     </div>
   );
 };
