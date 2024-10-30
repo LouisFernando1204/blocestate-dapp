@@ -132,6 +132,12 @@ const AuctionDetail = () => {
             class="w-full h-auto rounded-lg shadow-md mb-4" id="mainImage"></img>
           <div class="flex gap-4 py-4 justify-center overflow-x-auto">
             <img
+              src={dummyData.propertyImage[0]}
+              alt="Thumbnail 0"
+              className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
+              onClick={() => changeImage(dummyData.propertyImage[0])}
+            />
+            <img
               src={dummyData.propertyImage[1]}
               alt="Thumbnail 1"
               className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
@@ -223,7 +229,7 @@ const AuctionDetail = () => {
 
           <p class="text-gray-700 mt-6 mb-4">{dummyData.description}</p>
           <p className="text-gray-700 mb-6">
-            Area: {dummyData.area} m<sup>2</sup> | Year Built: {dummyData.yearBuilt} | Created by <span className="text-indigo-500">{dummyData.auctionCreator[0].name}</span>
+            <span className="font-semibold">Area:</span> {dummyData.area} m<sup>2</sup> | <span className="font-semibold">Year Built:</span> {dummyData.yearBuilt} | Created by <span className="text-indigo-500 font-semibold">{dummyData.auctionCreator[0].name}</span>
           </p>
 
           {/* Modal Toggle */}
@@ -312,9 +318,9 @@ const AuctionDetail = () => {
           </div>
 
           {dummyData.users.map((user, index) => (
-            <div 
-            key={index}
-            class="flow-root">
+            <div
+              key={index}
+              class="flow-root">
               <ul role="list" class="divide-y divide-gray-200">
                 <li class="py-3 sm:py-4">
                   <div class="flex items-center">
