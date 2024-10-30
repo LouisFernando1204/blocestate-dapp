@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+
 const AuctionDetail = () => {
   const dummyData = {
     propertyImage: [
@@ -14,13 +16,14 @@ const AuctionDetail = () => {
     description: "PENGEN UDANG KEJU GACOAN YAOLO Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ex officiis fugiat dolore, explicabo ut est nihil sit optio? Minus autem architecto ducimus aspernatur voluptates dignissimos incidunt recusandae maiores non.",
     area: 1250,
     yearBuilt: 2020,
+
     startBid_date: "2024-10-16",
-    endBid_date: "2024-10-30",
+    endBid_date: "2024-10-31",
     endBid_hour: "23:59",
+
     startingBid: 200,
     propertyType: "Surga Dunia",
 
-    // btw ya ini countdownnya ak bikin keduanya
     timerCountdown_beforeStart_Hour: 0,
     timerCountdown_beforeStart_Minute: 0,
     timerCountdown_beforeStart_Second: 0,
@@ -28,23 +31,14 @@ const AuctionDetail = () => {
     timerCountdown_toEnd_Minute: 20,
     timerCountdown_toEnd_Second: 15,
 
-    user: [
-      {
-        name: "Joren",
-        bid: 400,
-        date: "2024-05-20",
-      },
-      {
-        name: "Yanto",
-        bid: 380,
-        date: "2024-05-21",
-      },
-      {
-        name: "Fredrinn",
-        bid: 225,
-        date: "2024-05-22",
-      },
+    users: [
+      { name: "Yebol", bid: 400, date: "2024-05-22", image: "https://media.licdn.com/dms/image/v2/C4E03AQHFxCF2uitxvQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1641821985394?e=1735776000&v=beta&t=jRpVRwS-QnA6w_EvYNbu56HXj9GCqImdQYPwt4Tcf5U" },
+      { name: "Yanto", bid: 380, date: "2024-05-22", image: "https://stickershop.line-scdn.net/stickershop/v1/product/23099050/LINEStorePC/main.png?v=1" },
+      { name: "Fredrinn", bid: 225, date: "2024-05-22", image: "https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/70/2024/06/30/Hero-Counter-Fredrinn-1044367287.jpg" },
+      { name: "Bibi", bid: 150, date: "2024-05-21", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTY3T8aHotuNtZbCfPW1-hXehAOYuau-FDOQ&s" },
+      { name: "Suisei", bid: 140, date: "2024-05-21", image: "https://m.media-amazon.com/images/I/71LwoUyUSKL._AC_UF894,1000_QL80_.jpg" }
     ],
+
 
     auctionCreator: [
       {
@@ -58,6 +52,8 @@ const AuctionDetail = () => {
   const changeImage = (src) => {
     document.getElementById('mainImage').src = src;
   };
+
+  // Countdown timer code
 
   let dest = new Date(`${dummyData.endBid_date}T${dummyData.endBid_hour}:00`).getTime();
   let x = setInterval(function () {
@@ -110,6 +106,20 @@ const AuctionDetail = () => {
     }
   }, 1000);
 
+  // Sliding bidding cards code
+
+  // const CardCarousel = () => {
+  //   const [currentIndex, setCurrentIndex] = useState(0);
+
+  //   useEffect(() => {
+  //     const interval = setInterval(() => {
+  //       setCurrentIndex((prevIndex) => (prevIndex + 1) % user.length);
+  //     }, 2000);
+
+  //     return () => clearInterval(interval); // Cleanup on component unmount
+  //   }, []);
+  // }
+
   return (
     <div class="mt-32 container mx-auto md:px-4 py-8">
       <div class="flex flex-wrap -mx-4">
@@ -154,7 +164,7 @@ const AuctionDetail = () => {
           <p class="text-gray-600 mb-4">{dummyData.city}, {dummyData.province}, {dummyData.postal_code}</p>
           <div class="mb-4">
             {/* Ini aku ambil dari yg bid terbesar currently! */}
-            <span class="text-3xl font-bold mr-2 animate-pulse">{dummyData.user[0].bid} ICP</span>
+            <span class="text-3xl font-bold mr-2 animate-pulse">{dummyData.users[0].bid} ICP</span>
             <span class="text-gray-500">from {dummyData.startingBid} ICP</span>
           </div>
 
@@ -165,15 +175,14 @@ const AuctionDetail = () => {
             </div>
             <div class="flex flex-row gap-1.5">
               <img class="w-6" src="https://img.icons8.com/ios/50/arrow--v1.png" alt="arrow--v1" />
-              <p class="text-md font-medium text-red-500 ">{dummyData.endBid_date}</p>
+              <p class="text-md font-semibold text-red-500 ">{dummyData.endBid_date}</p>
             </div>
           </div>
-          <p class="text-gray-700 my-6">{dummyData.description}</p>
 
           {/* Untuk timernya ini, bisa ganti endBid_date dan endBid_hour nya yaa, 
           Aku BELUM bikin logic semisal countdownnya selesai gimana */}
 
-          <div class="mb-6 flex items-center justify-center md:justify-start w-full gap-4 count-down-main">
+          <div class="mt-6 flex items-center justify-center md:justify-start w-full gap-4 count-down-main">
             <div class="timer w-16">
               <div
                 class=" bg-amber-700 py-4 px-2 rounded-lg overflow-hidden">
@@ -212,16 +221,123 @@ const AuctionDetail = () => {
             </div>
           </div>
 
+          <p class="text-gray-700 mt-6 mb-4">{dummyData.description}</p>
+          <p className="text-gray-700 mb-6">
+            Area: {dummyData.area} m<sup>2</sup> | Year Built: {dummyData.yearBuilt} | Created by <span className="text-indigo-500">{dummyData.auctionCreator[0].name}</span>
+          </p>
 
-          <div class="flex space-x-4 mb-6">
+          {/* Modal Toggle */}
+
+          <div class="flex justify-center items-center md:justify-start md:items-start space-x-4 mb-6">
             <button
+              data-modal-target="popup-modal" data-modal-toggle="popup-modal"
               class="bg-amber-900 flex gap-2 items-center text-white px-6 py-4 rounded-xl hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               <img class="w-8" src="\images\bidding.png" alt="arrow--v1" />
               <p class="text-xl">Bid Now!</p>
             </button>
-
           </div>
 
+          <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+              <div class="relative bg-white rounded-lg shadow">
+                <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-amber-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="popup-modal">
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7l-6 6" />
+                  </svg>
+                  <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-4 md:p-5 text-center">
+                  <h3 class="mb-5 text-lg md:text-xl font-semibold text-gray-90">Insert your bidding amount!</h3>
+
+                  <p class="text-gray-600 mb-4">Highest: <span class="font-bold text-gray-800">{dummyData.users[0].bid} ICP</span></p>
+
+                  <div class="flex flex-col items-center">
+                    <input
+                      type="number"
+                      id="bidAmount"
+                      placeholder={dummyData.users[0].bid + 1}
+                      class="mb-5 w-1/3 px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-indigo-500 text-center sm:text-start"
+                      min="0"
+                    />
+
+                    <div class="flex items-center justify-center">
+                      {/* Logic submit blm ada :D, ini baru ngehide, works the same as Cancel */}
+                      <button data-modal-hide="popup-modal" type="button" class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                        Bid
+                      </button>
+                      <button data-modal-hide="popup-modal" type="button" class="text-white bg-red-600 py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-red-800 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100">
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* <div className="relative flex justify-center items-center w-full overflow-hidden">
+            <div className="flex transition-transform duration-500"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+              {dummyData.user.map((user, index) => (
+                <div key={index} className="min-w-full px-4 py-6 bg-gray-800 rounded-lg mx-2 text-center text-white">
+                  <h3 className="text-lg font-semibold mb-2">Bidder: {user.name}</h3>
+                  <p className="text-2xl font-bold mb-1">Bid: ${user.bid}</p>
+                  <p className="text-sm text-gray-400">Date: {user.date}</p>
+                </div>
+              ))}
+            </div>
+            <div className="absolute bottom-4 flex justify-center space-x-2">
+              {dummyData.user.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-2 h-2 rounded-full ${currentIndex === index ? 'bg-white' : 'bg-gray-500'}`}
+                ></button>
+              ))}
+            </div>
+          </div> */}
+
+        </div>
+
+      </div>
+
+      <div class="my-8 flex justify-center items-center gap-16">
+
+        <div class="w-full max-w-2xl p-4 bg-gray-100 border border-gray-200 rounded-lg shadow-xl sm:p-8">
+          <div class="flex items-center justify-between mb-4">
+            <h5 class="text-xl font-bold leading-none text-gray-900">Bidding History</h5>
+            <a href="#" class="text-sm font-medium text-blue-600 hover:underline">
+              View all
+            </a>
+          </div>
+
+          {dummyData.users.map((user, index) => (
+            <div 
+            key={index}
+            class="flow-root">
+              <ul role="list" class="divide-y divide-gray-200">
+                <li class="py-3 sm:py-4">
+                  <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                      <img class="w-8 h-8 rounded-full" src={user.image} alt="Neil image"></img>
+                    </div>
+                    <div class="flex-1 min-w-0 ms-4">
+                      <p class="text-sm font-medium text-gray-900 truncate">
+                        {user.name}
+                      </p>
+                      <p class="text-sm text-gray-500 truncate">
+                        {user.date}
+                      </p>
+                    </div>
+                    <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                      {user.bid} ICP
+                    </div>
+                  </div>
+                </li>
+
+              </ul>
+            </div>
+          ))}
 
         </div>
       </div>

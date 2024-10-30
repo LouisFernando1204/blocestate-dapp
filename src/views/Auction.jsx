@@ -30,12 +30,12 @@ const Auction = () => {
         />
       ) : (
         <>
-          <section class="mt-20 bg-gray-50 py-8 antialiased  md:py-12">
-            <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+          <section class="mt-20 bg-gray-50 py-8 antialiased md:py-12">
+            <div class="mx-auto max-w-screen-xl">
 
               {/* <!-- Heading & Filters --> */}
               <div class="items-center justify-between space-y-4 sm:flex sm:space-y-0 mb-8">
-                <div class="mt-3 flex flex-col md:flex-row items-end justify-center space-x-4">
+                <div class="mt-3 flex flex-col md:flex-row items-center justify-center space-x-4">
                   <h2 class="text-3xl font-semibold text-gray-900 text-center md:text-start">Your Balance: {dummyData.ICP_UserBalance} ICP </h2>
                   <h3 class="italic font-light text-gray-500 sm:text-xl text-center md:text-start">"Find your dream property"</h3>
                 </div>
@@ -74,7 +74,7 @@ const Auction = () => {
 
                       <div class="pt-6">
                         <a class="text-lg font-semibold leading-tight text-gray-900 hover:underline ">{auction.address}</a>
-                        <p class="mt-1 text-sm font-medium text-gray-500 ">{auction.area} ㎡</p>
+                        <p class="mt-1 text-sm font-medium text-gray-500 ">{auction.area} m<sup>2</sup></p>
 
                         <ul class="mt-2 flex items-center gap-2">
                           <li class="flex items-center gap-2">
@@ -111,6 +111,11 @@ const Auction = () => {
               </div>
             </div>
           </section>
+
+          <div className="w-full h-0.5 bg-gray-300 max-w-7xl" />
+
+          {/* Globe Section */}
+          
           <div className="flex flex-col items-center mx-auto w-full relative overflow-hidden h-[30rem] sm:h-[30rem] md:h-[40rem] px-4 sm:px-8">
             <h1 className="text-3xl font-semibold text-gray-900 text-center">
               Discover Property Auctions Worldwide, Secure and Easy
