@@ -11,7 +11,7 @@ const Footer = () => {
         </li>
         {navList.map((nav, index) => (
           <li key={index}>
-            <a class="text-white rounded hover:bg-amber-900 md:hover:bg-transparent md:hover:text-amber-600" href={`${nav.url}`}> {nav.title} </a>
+            <a className="text-white rounded hover:bg-amber-900 md:hover:bg-transparent md:hover:text-amber-600" href={`${nav.url}`}> {nav.title} </a>
           </li>
         ))}
       </ul>

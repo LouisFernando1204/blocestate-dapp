@@ -19,7 +19,7 @@ export async function createAuction(
 ) {
   try {
     const actor = await getActorWithLogin();
-    await actor.createAuction(
+    return await actor.createAuction(
       image,
       address,
       province,
@@ -35,7 +35,6 @@ export async function createAuction(
       certificateNumber,
       certificate
     );
-    return true;
   } catch (error) {
     console.log(error);
     return;
@@ -43,23 +42,37 @@ export async function createAuction(
 }
 
 export async function getAllAuctions() {
-    return await loadAllAuctions();
+  return await loadAllAuctions();
 }
 
 export async function loadAllAuctions() {
-    try {
-        const actor = getActorWithoutLogin();
-        const data = await actor.getAuctionList();
-        return structuredAuctions(data);
-    }
-    catch(error) {
-        console.log(error)
-        return;
-    }
+  try {
+    const actor = getActorWithoutLogin();
+    const data = await actor.getAuctionList();
+    return structuredAuctions(data);
+  } catch (error) {
+    console.log(error);
+    return;
+  }
 }
 
 export async function structuredAuctions(data) {
-    const auctionList = data.map((auction) => ({
-        
-    }))
+  const auctionList = data.map((auction) => ({
+    id: parseInt(auction.id),
+    creator: auction.creator.toString(),
+    certificate: auction.certificate.toString(),
+    province: auction.province.toString(),
+    propertyType: auction.propertyType.toString(),
+    city: auction.city.toString(),
+    postalCode: parseInt(auction.postalCode),
+    startAuction: parseInt(auction.startAuction),
+    description: auction.description.toString(),
+    endAuction: parseInt(auction.endAuction),
+    address: auction.address.toString(),
+    image: auction.image.toString(),
+    houseArea: parseInt(auction.houseArea),
+    startPrice: parseInt(auction.startPrice),
+    certificateNumber: parseInt(auction.certificateNumber),
+    yearBuilt: parseInt(auction.yearBuilt),
+  }));
 }

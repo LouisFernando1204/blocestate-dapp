@@ -24,18 +24,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (connectedPrincipal) {
-        const data = await getActorWithLogin();
-        if (data) {
-          const bal = await data.getUserPrincipalArray();
-          console.log(bal);
-        }
-      }
-    };
-    fetchData();
-  }, [connectedPrincipal]);
+  useEffect(() => {}, [connectedPrincipal]);
 
   return (
     <div className="font-poppins mx-10">
