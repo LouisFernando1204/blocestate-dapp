@@ -1,5 +1,6 @@
 import { idlFactory } from "../idl/service.did";
 import { Actor, HttpAgent } from "@dfinity/agent";
+import { Principal } from "@dfinity/principal";
 
 const nnsCanisterId = "pgty3-qqaaa-aaaao-a3ubq-cai";
 const host = "https://ic0.app";
@@ -11,7 +12,8 @@ export async function connectWallet() {
       whitelist,
     });
     return window.ic.plug.principalId;
-  } catch (error) {
+  } 
+  catch (error) {
     console.log(error);
     return;
   }

@@ -8,11 +8,8 @@ import Auction from "./views/Auction";
 import { CreateAuction } from "./views/CreateAuction";
 import {
   connectWallet,
-  getActorWithLogin,
-  getActorWithoutLogin,
 } from "./service/connector";
 import { useEffect, useState } from "react";
-import Certificate from "./views/Certificate";
 
 function App() {
   const [connectedPrincipal, setConnectedPrincipal] = useState("");

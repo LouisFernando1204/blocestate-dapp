@@ -19,7 +19,7 @@ export async function createAuction(
 ) {
   try {
     const actor = await getActorWithLogin();
-    return await actor.createAuction(
+    await actor.createAuction(
       image,
       address,
       province,
@@ -37,7 +37,6 @@ export async function createAuction(
     );
   } catch (error) {
     console.log(error);
-    return;
   }
 }
 
@@ -47,9 +46,9 @@ export async function getAllAuctions() {
 
 export async function loadAllAuctions() {
   try {
-    const actor = getActorWithoutLogin();
+    const actor = await getActorWithoutLogin();
     const data = await actor.getAuctionList();
-    return structuredAuctions(data);
+    return structuredAuctions(data) || [];
   } catch (error) {
     console.log(error);
     return;
@@ -75,4 +74,5 @@ export async function structuredAuctions(data) {
     certificateNumber: parseInt(auction.certificateNumber),
     yearBuilt: parseInt(auction.yearBuilt),
   }));
+  return auctionList;
 }

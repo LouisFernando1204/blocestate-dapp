@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
@@ -12,26 +12,25 @@ import { PinataSDK } from "pinata-web3";
 import { createAuction } from "../service/auction";
 import { pdf } from "@react-pdf/renderer";
 import Certificate from "./Certificate";
-import { saveAs } from "file-saver";
 import LoadingScreen from "../components/ui/loading-screen";
 
 export function CreateAuction() {
   const navigate = useNavigate();
 
-  const [address, setAddress] = useState("A");
-  const [province, setProvince] = useState("A");
-  const [city, setCity] = useState("A");
-  const [postalCode, setPostalCode] = useState("100");
-  const [category, setCategory] = useState("A");
-  const [area, setArea] = useState("100");
-  const [builtYear, setBuiltYear] = useState("100");
-  const [description, setDescription] = useState("A");
+  const [address, setAddress] = useState("Jl. Mawar 123");
+  const [province, setProvince] = useState("East Java");
+  const [city, setCity] = useState("Surabaya");
+  const [postalCode, setPostalCode] = useState("60116");
+  const [category, setCategory] = useState("House");
+  const [area, setArea] = useState("1000");
+  const [builtYear, setBuiltYear] = useState("1952");
+  const [description, setDescription] = useState("lorem ipsum dolor sit amet");
   const [image, setImage] = useState(null);
 
-  const [certificateNumber, setCertificateNumber] = useState("100");
+  const [certificateNumber, setCertificateNumber] = useState("6344238123");
   const [startAuction, setStartAuction] = useState("");
   const [endAuction, setEndAuction] = useState("");
-  const [startPrice, setStartPrice] = useState("100");
+  const [startPrice, setStartPrice] = useState("10");
   const [isLoading, setIsLoading] = useState(false);
 
   const pinata = new PinataSDK({
@@ -80,10 +79,9 @@ export function CreateAuction() {
     }
   };
 
-  const uploadToPinata = async () => {
+  const uploadToPinata = async (file) => {
     try {
-      const certificateFile = await generateCertificate();
-      const upload = await pinata.upload.file(certificateFile);
+      const upload = await pinata.upload.file(file);
       return upload.IpfsHash;
     } catch (error) {
       console.log(error);
@@ -123,28 +121,37 @@ export function CreateAuction() {
       endAuction &&
       startPrice
     ) {
-      const certificate = await uploadToPinata();
-      if (certificate) {
-        const result = await createAuction(
-          image,
-          address,
-          province,
-          city,
-          parseInt(postalCode),
-          category,
-          parseInt(area),
-          parseInt(builtYear),
-          description,
-          parseInt(startPrice),
-          parseInt(Math.floor(new Date(startAuction).getTime() / 1000)),
-          parseInt(Math.floor(new Date(endAuction).getTime() / 1000)),
-          parseInt(certificateNumber),
-          certificate
-        );
-        setIsLoading(true);
-        if (result) {
+      setIsLoading(true);
+      const certificateFile = await generateCertificate();
+      const certificateUploaded = await uploadToPinata(certificateFile);
+      const imageUploaded = await uploadToPinata(image);
+      if (certificateUploaded && imageUploaded) {
+        console.log(certificateUploaded);
+        console.log(imageUploaded);
+        try {
+          await createAuction(
+            imageUploaded,
+            address,
+            province,
+            city,
+            parseInt(postalCode),
+            category,
+            parseInt(area),
+            parseInt(builtYear),
+            description,
+            parseInt(startPrice),
+            parseInt(Math.floor(new Date(startAuction).getTime() / 1000)),
+            parseInt(Math.floor(new Date(endAuction).getTime() / 1000)),
+            parseInt(certificateNumber),
+            certificateUploaded
+          );
+        }
+        catch (error) {
+          console.log(error)
+        }
+        finally {
           setIsLoading(false);
-          // reset();
+          reset();
           successAlert();
         }
       }
