@@ -11,7 +11,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
+        poppins: ["Lato", "sans-serif"],
       },
       colors: {
         darkBrown: "#422006"
