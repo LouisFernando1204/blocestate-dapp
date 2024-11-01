@@ -18,7 +18,7 @@ const Home = () => {
         console.error("Error generating PDF:", error);
       }
     };
-    handleClick();  
+    // handleClick();  
   }, [])
   
   return (

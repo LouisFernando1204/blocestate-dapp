@@ -17,6 +17,8 @@
     "@heroicons/react": "^2.1.5",
     "@radix-ui/react-label": "^2.1.0",
     "@react-pdf/renderer": "^4.0.0",
+    "@react-three/drei": "^9.115.0",
+    "@react-three/fiber": "^8.17.10",
     "@tabler/icons-react": "^3.19.0",
     "clsx": "^2.1.1",
     "file-saver": "^2.0.5",
@@ -29,7 +31,9 @@
     "react-router-dom": "^6.27.0",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "sweetalert2": "^11.14.4",
-    "tailwind-merge": "^2.5.4"
+    "tailwind-merge": "^2.5.4",
+    "three": "^0.170.0",
+    "three-globe": "^2.34.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",

@@ -100,7 +100,7 @@ export function CreateAuction() {
   };
 
   return (
-    <div className="w-full h-full mx-auto p-4 md:p-6 shadow-input bg-gray-100 flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
+    <div className="w-full h-full my-24 mx-auto p-4 md:p-6 shadow-input bg-gray-100 flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
       <div
         data-aos="fade-up"
         data-aos-anchor-placement="top-bottom"

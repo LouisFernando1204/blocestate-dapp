@@ -1,7 +1,7 @@
 import { idlFactory } from "../idl/service.did";
 import { Actor, HttpAgent } from "@dfinity/agent";
 
-const nnsCanisterId = "7z2b7-ciaaa-aaaap-ahxba-cai";
+const nnsCanisterId = "pgty3-qqaaa-aaaao-a3ubq-cai";
 const host = "https://ic0.app";
 
 export async function connectWallet() {
