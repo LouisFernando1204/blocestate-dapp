@@ -20,6 +20,7 @@
     "@react-three/drei": "^9.115.0",
     "@react-three/fiber": "^8.17.10",
     "@tabler/icons-react": "^3.19.0",
+    "boring-avatars": "^1.11.2",
     "clsx": "^2.1.1",
     "file-saver": "^2.0.5",
     "framer-motion": "^11.11.9",

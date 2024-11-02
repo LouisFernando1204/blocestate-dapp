@@ -11,10 +11,7 @@ export function truncate(
   endChar,
   maxLength
 ) {
-  if (text.length < 11) {
-    return text;
-  }
-  else if (text.length > maxLength) {
+  if (text.length > maxLength) {
     let start = text.substring(0, startChar);
     let end = text.substring(text.length - endChar, text.length);
     while (start.length + end.length < maxLength) {
