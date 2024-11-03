@@ -1,34 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Route, Routes } from "react-router-dom"
+import AuctionDetail from "./views/AuctionDetail"
+import Verification from "./views/Verification"
+import Home from "./views/Home"
+import Auction from "./views/Auction"
+import { CreateAuction } from "./views/CreateAuction"
+import Layout from "./components/fixed/Layout"
+import {
+  connectWallet,
+} from "./service/connector";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [connectedPrincipal, setConnectedPrincipal] = useState("");
+
+  const handleConnect = async () => {
+    const principal = await connectWallet();
+    if (principal) {
+      setConnectedPrincipal(principal);
+    }
+  };
+
+  useEffect(() => { }, [connectedPrincipal]);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Routes>
+      <Route
+        path="/"
+        element={<Layout handleConnect={handleConnect} principal={connectedPrincipal} />}
+      >
+        <Route path="/" element={<Home />} />
+        <Route path="/auction" element={<Auction />} />
+        <Route path="/auction/:id" element={<AuctionDetail />} />
+        <Route path="/create_auction" element={<CreateAuction />} />
+        <Route path="/verification" element={<Verification principal={connectedPrincipal} />} />
+      </Route>
+    </Routes>
   )
 }
 
