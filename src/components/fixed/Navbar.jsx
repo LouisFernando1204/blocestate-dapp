@@ -1,12 +1,11 @@
-/* eslint-disable react/prop-types */
 import { navList } from "../../utils/list";
 import plug from "../../assets/plug.png";
 import { truncate } from "../../lib/utils";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ handleConnect, principal }) => {
+const Navbar = ({ principal, handleConnect }) => {
   return (
-    <div className={`text-white border-b border-n-6 shadow-xl`}>
+    <div className={`-mx-10 text-white border-b border-n-6 shadow-xl`}>
       <nav className="bg-darkBrown w-full border-b border-amber-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-6 md:py-4">
           <a
@@ -55,8 +54,8 @@ const Navbar = ({ handleConnect, principal }) => {
             <div className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-darkBrown md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
               {navList.map((item, index) => (
                 <Link
-                  to={item.url}
-                  key={index}>
+                to={item.url}
+                key={index}>
                   <h1
                     href={item.url}
                     className="block py-2 px-3 text-white rounded hover:bg-amber-900 md:hover:bg-transparent md:hover:text-amber-600 md:p-0"

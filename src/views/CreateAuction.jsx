@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
@@ -9,30 +9,34 @@ import { FileUpload } from "../components/ui/file-upload";
 import LabelInputContainer from "../components/ui/label-input-container";
 import Swal from "sweetalert2";
 import { PinataSDK } from "pinata-web3";
-import DateTimePicker from "react-datetime-picker";
+import { createAuction } from "../service/auction";
+import { pdf } from "@react-pdf/renderer";
+import Certificate from "./Certificate";
+import LoadingScreen from "../components/ui/loading-screen";
 
 export function CreateAuction() {
   const navigate = useNavigate();
 
-  const [address, setAddress] = useState("");
-  const [province, setProvince] = useState("");
-  const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [category, setCategory] = useState("");
-  const [area, setArea] = useState("");
-  const [builtYear, setBuiltYear] = useState("");
-  const [description, setDescription] = useState("");
+  const [address, setAddress] = useState("Jl. Mawar 123");
+  const [province, setProvince] = useState("East Java");
+  const [city, setCity] = useState("Surabaya");
+  const [postalCode, setPostalCode] = useState("60116");
+  const [category, setCategory] = useState("House");
+  const [area, setArea] = useState("1000");
+  const [builtYear, setBuiltYear] = useState("1952");
+  const [description, setDescription] = useState("lorem ipsum dolor sit amet");
   const [image, setImage] = useState(null);
 
-  const [certificateNumber, setCertificateNumber] = useState("");
+  const [certificateNumber, setCertificateNumber] = useState("6344238123");
   const [startAuction, setStartAuction] = useState("");
   const [endAuction, setEndAuction] = useState("");
-  const [startPrice, setStartPrice] = useState("");
+  const [startPrice, setStartPrice] = useState("10");
+  const [isLoading, setIsLoading] = useState(false);
 
-  // const pinata = new PinataSDK({
-  //   pinataJwt: `${import.meta.env.VITE_JWT}`,
-  //   pinataGateway: `${import.meta.env.VITE_DOMAIN_PINATA}`,
-  // });
+  const pinata = new PinataSDK({
+    pinataJwt: `${import.meta.env.VITE_JWT}`,
+    pinataGateway: `${import.meta.env.VITE_GATEWAY}`,
+  });
 
   const successAlert = () => {
     Swal.fire({
@@ -59,48 +63,110 @@ export function CreateAuction() {
     });
   };
 
-  // if (isLoading) {
-  //   return <LoadingScreen />;
-  // }
-
-  const handleSubmit = async() => {
-    if (
-      address && 
-      province && 
-      city && 
-      postalCode && 
-      category && 
-      area && 
-      builtYear && 
-      description && 
-      image && 
-      certificateNumber && 
-      startAuction && 
-      endAuction && 
-      startPrice
-    ) {
-      console.log("All fields are filled, form is ready to submit");
-      console.log("Address:", address);
-      console.log("Province:", province);
-      console.log("City:", city);
-      console.log("Postal Code:", postalCode);
-      console.log("Category:", category);
-      console.log("Area:", area);
-      console.log("Built Year:", builtYear);
-      console.log("Description:", description);
-      console.log("Image:", image);
-      console.log("Certificate Number:", certificateNumber);
-      console.log("Start Auction:", startAuction);
-      console.log("End Auction:", endAuction);
-      console.log("Start Price:", startPrice);
-      } else {
-      console.log("Please fill in all required fields");
-      failedAlert()
+  const generateCertificate = async () => {
+    try {
+      const blob = await pdf(
+        <Certificate
+          certificateNumber={certificateNumber}
+          province={province}
+          city={city}
+        />
+      ).toBlob();
+      return blob;
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      return;
     }
   };
 
+  const uploadToPinata = async (file) => {
+    try {
+      const upload = await pinata.upload.file(file);
+      return upload.IpfsHash;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+
+  const reset = () => {
+    setAddress("");
+    setProvince("");
+    setCity("");
+    setPostalCode("");
+    setCategory("");
+    setArea("");
+    setBuiltYear("");
+    setDescription("");
+    setImage(null);
+    setCertificateNumber("");
+    setStartAuction("");
+    setEndAuction("");
+    setStartPrice("");
+  }
+
+  const handleSubmit = async () => {
+    if (
+      address &&
+      province &&
+      city &&
+      postalCode &&
+      category &&
+      area &&
+      builtYear &&
+      description &&
+      image &&
+      certificateNumber &&
+      startAuction &&
+      endAuction &&
+      startPrice
+    ) {
+      setIsLoading(true);
+      const certificateFile = await generateCertificate();
+      const certificateUploaded = await uploadToPinata(certificateFile);
+      const imageUploaded = await uploadToPinata(image);
+      if (certificateUploaded && imageUploaded) {
+        console.log(certificateUploaded);
+        console.log(imageUploaded);
+        try {
+          await createAuction(
+            imageUploaded,
+            address,
+            province,
+            city,
+            parseInt(postalCode),
+            category,
+            parseInt(area),
+            parseInt(builtYear),
+            description,
+            parseInt(startPrice),
+            parseInt(Math.floor(new Date(startAuction).getTime() / 1000)),
+            parseInt(Math.floor(new Date(endAuction).getTime() / 1000)),
+            parseInt(certificateNumber),
+            certificateUploaded
+          );
+        }
+        catch (error) {
+          console.log(error)
+        }
+        finally {
+          setIsLoading(false);
+          reset();
+          successAlert();
+        }
+      }
+    } else {
+      console.log("Please fill in all required fields");
+      failedAlert();
+    }
+  };
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
-    <div className="w-full h-full mx-auto p-4 md:p-6 shadow-input bg-gray-100 flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
+    <div className="w-full h-full my-24 mx-auto p-4 md:p-6 shadow-input bg-gray-100 flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
       <div
         data-aos="fade-up"
         data-aos-anchor-placement="top-bottom"
