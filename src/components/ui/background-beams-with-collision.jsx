@@ -202,6 +202,7 @@ const CollisionMechanism = React.forwardRef(
 CollisionMechanism.displayName = "CollisionMechanism";
 
 const Explosion = ({ ...props }) => {
+
   const spans = Array.from({ length: 20 }, (_, index) => ({
     id: index,
     initialX: 0,
