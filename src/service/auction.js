@@ -63,7 +63,11 @@ export async function getAllAuctions() {
   return await loadAllAuctions();
 }
 
-export async function loadAllAuctions() {
+export async function getFinalBids() {
+  return await loadAllFinalBids();
+}
+
+async function loadAllAuctions() {
   try {
     const actor = await getActorWithoutLogin();
     const data = await actor.getAuctionList();
@@ -74,7 +78,19 @@ export async function loadAllAuctions() {
   }
 }
 
-export async function structuredAuctions(data) {
+async function loadAllFinalBids() {
+  try {
+    const actor = await getActorWithoutLogin();
+    const data = await actor.getFinalBids();
+    return structuredFinalBids(data) || [];
+  }
+  catch(error) {
+    console.log(error);
+    return [];
+  }
+}
+
+function structuredAuctions(data) {
   const auctionList = data.map((auction) => ({
     id: parseInt(auction.id),
     creator: auction.creator.toString(),
@@ -94,4 +110,14 @@ export async function structuredAuctions(data) {
     yearBuilt: parseInt(auction.yearBuilt),
   }));
   return auctionList;
+}
+
+function structuredFinalBids(data) {
+  const finalBidList = data.map((finalBid) => ({
+    id: parseInt(finalBid.id),
+    finalPrice: parseInt(finalBid.finalPrice),
+    auctionId: parseInt(finalBid.auctionId),
+    user: finalBid.user.toString(),
+  }));
+  return finalBidList;
 }

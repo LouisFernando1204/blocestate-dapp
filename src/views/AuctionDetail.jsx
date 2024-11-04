@@ -1,19 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { decideFinalBid, getAllAuctions } from "../service/auction";
+import {
+  decideFinalBid,
+  getAllAuctions,
+  getFinalBids,
+} from "../service/auction";
 import LoadingScreen from "../components/ui/loading-screen";
 import { convertTimestamp, truncate } from "../lib/utils";
 import Avatar from "boring-avatars";
 import { bidAuction, getAllParticipants } from "../service/participant";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { saveAs } from "file-saver";
+import { pdf } from "@react-pdf/renderer";
+import Certificate from "./Certificate";
 
 const AuctionDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [auction, setAuction] = useState({});
   const [participants, setParticipants] = useState([]);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [hasWinner, setHasWinner] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [loadingBid, setLoadingBid] = useState(false);
+  const [loadingFinalBid, setLoadingFinalBid] = useState(false);
+  const [loadingWinner, setLoadingWinner] = useState(false);
   const [loadingAuction, setLoadingAuction] = useState(false);
   const [loadingParticipants, setLoadingParticipants] = useState(false);
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -61,7 +75,7 @@ const AuctionDetail = () => {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        handleAuctionWinner();
+        handleFinalProcess();
       }
     });
   };
@@ -82,6 +96,24 @@ const AuctionDetail = () => {
       confirmButtonText: "Close",
       confirmButtonColor: "#cc0029",
     });
+  };
+
+  const handleFinalProcess = async () => {
+    try {
+      const fileName = "certificate.pdf";
+      const blob = await pdf(
+        <Certificate
+          certificateNumber={auction.certificateNumber}
+          province={auction.province}
+          city={auction.city}
+        />
+      ).toBlob();
+      saveAs(blob, fileName);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    } finally {
+      navigate("/");
+    }
   };
 
   const handleBid = async () => {
@@ -111,39 +143,57 @@ const AuctionDetail = () => {
         setLoadingBid(false);
       }
       if (error == false) {
-        setShowSuccessAlert(true);
+        successAlert();
       }
     }
   };
 
   useEffect(() => {
-    if (loadingBid == false && showSuccessAlert == true) {
-      successAlert();
+    const fetchWinner = async () => {
+      setLoadingFinalBid(true);
+      try {
+        const data = await getFinalBids();
+        const isExist = data.some(
+          (participant) => participant.auctionId === auction.id
+        );
+        setHasWinner(isExist);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoadingFinalBid(false);
+      }
+    };
+    if (auction) {
+      fetchWinner();
     }
-  }, [id, loadingBid, showSuccessAlert]);
+  }, [id, auction]);
 
   useEffect(() => {
     if (auction) {
       const timer = setInterval(() => {
         setTimeLeft(calculateTimeLeft());
-        console.log(timeLeft.seconds);
+
+        console.log(timeLeft);
 
         if (
-          timeLeft.days === 0 &&
-          timeLeft.hours === 0 &&
-          timeLeft.minutes === 0 &&
-          timeLeft.seconds === 0
+          timeLeft.days <= 0 &&
+          timeLeft.hours <= 0 &&
+          timeLeft.minutes <= 0 &&
+          timeLeft.seconds <= 0 &&
+          participants[0] != null &&
+          hasWinner === false
         ) {
-          if (participants[0] != null) {
-            processAuctionWinner();
-          }
-          clearInterval(timer);
+          setHasWinner(true);
+          processAuctionWinner();
+          console.log("loading : " + loading);
+          console.log("loading winner : " + loadingWinner);
+          console.log("has winner : " + hasWinner);
         }
       }, 1000);
 
       return () => clearInterval(timer);
     }
-  }, [auction, id]);
+  }, [auction, id, hasWinner, timeLeft, participants]);
 
   useEffect(() => {
     setLoadingAuction(true);
@@ -164,6 +214,7 @@ const AuctionDetail = () => {
   }, [id]);
 
   const processAuctionWinner = async () => {
+    setLoadingWinner(true);
     try {
       await decideFinalBid(
         participants[0].user,
@@ -174,7 +225,8 @@ const AuctionDetail = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      
+      setLoadingWinner(false);
+      winnerAlert(participants[0].user);
     }
   };
 
@@ -208,16 +260,21 @@ const AuctionDetail = () => {
 
   useEffect(() => {
     setLoading(true);
-    if (loadingAuction == false && loadingParticipants == false) {
+
+    if (
+      loadingAuction == false &&
+      loadingParticipants == false &&
+      loadingFinalBid == false
+    ) {
       const delayTimer = setTimeout(() => {
         setLoading(false);
       }, 2000);
 
       return () => clearTimeout(delayTimer);
     }
-  }, [id, loadingAuction, loadingParticipants]);
+  }, [id, loadingAuction, loadingParticipants, loadingFinalBid]);
 
-  if (loading || loadingBid) {
+  if (loading || loadingBid || loadingWinner) {
     return <LoadingScreen />;
   }
 
