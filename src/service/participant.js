@@ -13,10 +13,6 @@ export async function getAllParticipants() {
   return await loadAllParticipants();
 }
 
-export async function getAuctionParticipants(address) {
-  return await loadAuctionParticipants(address);
-}
-
 async function loadAllParticipants() {
   try {
     const actor = await getActorWithoutLogin();
@@ -24,19 +20,7 @@ async function loadAllParticipants() {
     return structuredParticipants(data) || [];
   } catch (error) {
     console.log(error);
-    return;
-  }
-}
-
-async function loadAuctionParticipants(address) {
-  try {
-    const actor = await getActorWithoutLogin();
-    const data = await actor.getAuctionParticipants(address);
-    return data.map((principal) => principal.toString()) || []
-  }
-  catch(error) {
-    console.log(error)
-    return;
+    return [];
   }
 }
 

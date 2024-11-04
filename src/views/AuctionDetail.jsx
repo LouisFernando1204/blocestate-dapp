@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getAllAuctions } from "../service/auction";
+import { decideFinalBid, getAllAuctions } from "../service/auction";
 import LoadingScreen from "../components/ui/loading-screen";
 import { convertTimestamp, truncate } from "../lib/utils";
 import Avatar from "boring-avatars";
-import {
-  bidAuction,
-  getAllParticipants,
-  getAuctionParticipants,
-} from "../service/participant";
+import { bidAuction, getAllParticipants } from "../service/participant";
 import Swal from "sweetalert2";
 
 const AuctionDetail = () => {
   const { id } = useParams();
   const [auction, setAuction] = useState({});
   const [participants, setParticipants] = useState([]);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingBid, setLoadingBid] = useState(false);
+  const [loadingAuction, setLoadingAuction] = useState(false);
+  const [loadingParticipants, setLoadingParticipants] = useState(false);
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [openModal, setOpenModal] = useState(false);
   const [bid, setBid] = useState("");
-  const [newBidTracker, setNewBidTracker] = useState(false);
 
   function calculateTimeLeft() {
     if (auction) {
       const now = Math.floor(new Date().getTime() / 1000);
       const difference = auction.endAuction - now;
+
+      if (difference <= 0) {
+        return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+      }
 
       const days = Math.floor(difference / (60 * 60 * 24));
       const hours = Math.floor((difference / (60 * 60)) % 24);
@@ -47,6 +50,22 @@ const AuctionDetail = () => {
     });
   };
 
+  const winnerAlert = (principal) => {
+    Swal.fire({
+      text: `Congratulation to ${principal} for winning this auction!`,
+      icon: "success",
+      confirmButtonText: "Download Certificate Here!",
+      confirmButtonColor: "#1f6feb",
+      customClass: {
+        confirmButton: "w-full",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleAuctionWinner();
+      }
+    });
+  };
+
   const failedAlert = () => {
     Swal.fire({
       text: "Oops... There's something wrong while placing your bid. Please try again!",
@@ -66,78 +85,139 @@ const AuctionDetail = () => {
   };
 
   const handleBid = async () => {
+    let error = false;
     try {
-      setLoading(true);
+      setLoadingBid(true);
       if (
         (participants[0] != null && parseInt(bid) > participants[0].amount) ||
-        (participants[0] == null && parseInt(bid) >= auction.startPrice)
+        (participants[0] == null && parseInt(bid) > auction.startPrice)
       ) {
         await bidAuction(auction.id, parseInt(bid));
       } else {
+        error = true;
         errorRequiredGreaterAmount();
       }
     } catch (error) {
       failedAlert();
       console.log(error);
     } finally {
-      setOpenModal(false);
-      setLoading(false);
-      if (!loading) {
-        setNewBidTracker(!newBidTracker);
-        successAlert();
+      try {
+        await fetchParticipants();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setOpenModal(false);
+        setBid("");
+        setLoadingBid(false);
+      }
+      if (error == false) {
+        setShowSuccessAlert(true);
       }
     }
   };
+
+  useEffect(() => {
+    if (loadingBid == false && showSuccessAlert == true) {
+      successAlert();
+    }
+  }, [id, loadingBid, showSuccessAlert]);
 
   useEffect(() => {
     if (auction) {
       const timer = setInterval(() => {
         setTimeLeft(calculateTimeLeft());
+        console.log(timeLeft.seconds);
+
+        if (
+          timeLeft.days === 0 &&
+          timeLeft.hours === 0 &&
+          timeLeft.minutes === 0 &&
+          timeLeft.seconds === 0
+        ) {
+          if (participants[0] != null) {
+            processAuctionWinner();
+          }
+          clearInterval(timer);
+        }
       }, 1000);
 
       return () => clearInterval(timer);
     }
-  }, [auction]);
+  }, [auction, id]);
 
   useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
+    setLoadingAuction(true);
+    const fetchAuction = async () => {
       try {
-        await fetchAuction();
-        await fetchParticipants();
+        const data = await getAllAuctions();
+        const detailAuction = data.find((auction) => {
+          return auction.id === parseInt(id);
+        });
+        setAuction(detailAuction);
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        setLoadingAuction(false);
       }
     };
-    fetchData();
-  }, [id, newBidTracker]);
+    fetchAuction();
+  }, [id]);
 
-  const fetchAuction = async () => {
-    const data = await getAllAuctions();
-    const detailAuction = data.find((auction) => {
-      return auction.id === parseInt(id);
-    });
-    setAuction(detailAuction);
-  };
-
-  const fetchParticipants = async () => {
-    if (auction) {
-      const allParticipants = await getAllParticipants();
-      const auctionParticipants = await getAuctionParticipants(auction.address);
-      const thisAuctionParticipants = allParticipants
-        .filter((participant) =>
-          auctionParticipants.some(
-            (principal) => principal === participant.user
-          )
-        )
-        .sort((a, b) => b.amount - a.amount);
-      setParticipants(thisAuctionParticipants || []);
+  const processAuctionWinner = async () => {
+    try {
+      await decideFinalBid(
+        participants[0].user,
+        auction.address,
+        participants[0].amount,
+        auction.id
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      
     }
   };
 
-  if (loading) {
+  const fetchParticipants = async () => {
+    try {
+      if (auction) {
+        const allParticipants = await getAllParticipants();
+
+        if (allParticipants) {
+          const thisAuctionParticipants = allParticipants
+            .filter((participant) => {
+              return participant.auctionId === auction.id;
+            })
+            .sort((a, b) => b.amount - a.amount);
+          setParticipants(thisAuctionParticipants || []);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingParticipants(false);
+    }
+  };
+
+  useEffect(() => {
+    setLoadingParticipants(true);
+    if (auction) {
+      fetchParticipants();
+    }
+  }, [id, auction]);
+
+  useEffect(() => {
+    setLoading(true);
+    if (loadingAuction == false && loadingParticipants == false) {
+      const delayTimer = setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+
+      return () => clearTimeout(delayTimer);
+    }
+  }, [id, loadingAuction, loadingParticipants]);
+
+  if (loading || loadingBid) {
     return <LoadingScreen />;
   }
 
@@ -317,7 +397,9 @@ const AuctionDetail = () => {
                         value={bid}
                         onChange={(e) => setBid(e.target.value)}
                         placeholder={`${
-                          participants[0] ? participants[0].amount + 1 : 1
+                          participants[0]
+                            ? participants[0].amount + 1
+                            : auction.startPrice + 1
                         } ICP`}
                         className="mb-5 w-1/3 px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-indigo-500 text-center sm:text-start"
                         min="0"

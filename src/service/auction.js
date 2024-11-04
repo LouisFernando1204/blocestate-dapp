@@ -1,6 +1,25 @@
 import { Principal } from "@dfinity/principal";
 import { getActorWithLogin, getActorWithoutLogin } from "./connector";
 
+export async function decideFinalBid(
+  participant,
+  address,
+  finalPrice,
+  auctionId
+) {
+  try {
+    const actor = await getActorWithLogin();
+    await actor.decideFinalBid(
+      Principal.fromText(participant),
+      address,
+      finalPrice,
+      auctionId
+    );
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function createAuction(
   image,
   address,
