@@ -1,3 +1,4 @@
+
 import { Route, Routes } from "react-router-dom";
 import Footer from "./components/fixed/Footer";
 import Navbar from "./components/fixed/Navbar";
@@ -20,6 +21,7 @@ function App() {
       setConnectedPrincipal(principal);
     }
   };
+
 
   useEffect(() => {}, [connectedPrincipal]);
 
