@@ -39,3 +39,22 @@ export async function getActorWithLogin() {
     return actor;
   }
 }
+
+export async function addVerifiedUser(verificationHash) {
+  try {
+      const actor = await getActorWithLogin();
+
+      const verificationMessage = await actor.checkParticipantVerification();
+
+      if (verificationMessage == "Verification hash not found!") {
+          await actor.addVerifiedUser(verificationHash);
+          console.log("User verified and added successfully.");
+      } else {
+          console.log("User already verified with hash:", verificationMessage);
+      }
+  } catch (error) {
+      const actor = await getActorWithLogin();
+      console.log("No verification hash found, proceeding to add user.");
+      await actor.addVerifiedUser(verificationHash);
+  }
+}

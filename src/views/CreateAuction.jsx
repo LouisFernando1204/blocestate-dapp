@@ -34,8 +34,8 @@ export function CreateAuction() {
   const [isLoading, setIsLoading] = useState(false);
 
   const pinata = new PinataSDK({
-    pinataJwt: `${import.meta.env.VITE_JWT}`,
-    pinataGateway: `${import.meta.env.VITE_GATEWAY}`,
+    pinataJwt: `${import.meta.env.VITE_PINATA_JWT}`,
+    pinataGateway: `${import.meta.env.VITE_PINATA_GATEWAY}`,
   });
 
   const successAlert = () => {
