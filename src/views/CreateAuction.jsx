@@ -70,7 +70,7 @@ export function CreateAuction() {
           certificateNumber={certificateNumber}
           province={province}
           city={city}
-        />
+        />,
       ).toBlob();
       return blob;
     } catch (error) {
@@ -103,7 +103,7 @@ export function CreateAuction() {
     setStartAuction("");
     setEndAuction("");
     setStartPrice("");
-  }
+  };
 
   const handleSubmit = async () => {
     if (
@@ -143,13 +143,11 @@ export function CreateAuction() {
             parseInt(Math.floor(new Date(startAuction).getTime() / 1000)),
             parseInt(Math.floor(new Date(endAuction).getTime() / 1000)),
             parseInt(certificateNumber),
-            certificateUploaded
+            certificateUploaded,
           );
-        }
-        catch (error) {
-          console.log(error)
-        }
-        finally {
+        } catch (error) {
+          console.log(error);
+        } finally {
           setIsLoading(false);
           reset();
           successAlert();
@@ -183,17 +181,8 @@ export function CreateAuction() {
         </p>
         <div className="w-full flex flex-col space-y-4">
           <LabelInputContainer>
-            <Label
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
-            >
-              Address
-            </Label>
+            <Label>Address</Label>
             <Input
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
               placeholder="Ex : Northway Street No.50"
               type="text"
               value={address}
@@ -202,17 +191,8 @@ export function CreateAuction() {
           </LabelInputContainer>
           <div className="grid grid-cols-2 gap-3">
             <LabelInputContainer>
-              <Label
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
-              >
-                Province
-              </Label>
+              <Label>Province</Label>
               <Input
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
                 placeholder="Ex : East Java"
                 type="text"
                 value={province}
@@ -220,17 +200,8 @@ export function CreateAuction() {
               />
             </LabelInputContainer>
             <LabelInputContainer>
-              <Label
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
-              >
-                City
-              </Label>
+              <Label>City</Label>
               <Input
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
                 placeholder="Ex : Surabaya"
                 type="text"
                 value={city}
@@ -240,17 +211,8 @@ export function CreateAuction() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <LabelInputContainer>
-              <Label
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
-              >
-                Postal Code
-              </Label>
+              <Label>Postal Code</Label>
               <Input
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
                 placeholder="Ex : 60114"
                 type="number"
                 value={postalCode}
@@ -258,18 +220,8 @@ export function CreateAuction() {
               />
             </LabelInputContainer>
             <LabelInputContainer>
-              <Label
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
-                htmlFor="description"
-              >
-                Built Year
-              </Label>
+              <Label>Built Year</Label>
               <Input
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
                 placeholder="Ex : 1920"
                 type="number"
                 min={1}
@@ -281,18 +233,8 @@ export function CreateAuction() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <LabelInputContainer>
-              <Label
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
-                htmlFor="description"
-              >
-                Category
-              </Label>
+              <Label>Category</Label>
               <Input
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
                 placeholder="Ex : House"
                 type="text"
                 value={category}
@@ -300,18 +242,8 @@ export function CreateAuction() {
               />
             </LabelInputContainer>
             <LabelInputContainer>
-              <Label
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
-                htmlFor="description"
-              >
-                Area (m²)
-              </Label>
+              <Label>Area (m²)</Label>
               <Input
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-bottom"
-                data-aos-duration="500"
                 placeholder="Ex : 1500m²"
                 type="number"
                 min={1}
@@ -321,18 +253,8 @@ export function CreateAuction() {
             </LabelInputContainer>
           </div>
           <LabelInputContainer>
-            <Label
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
-              htmlFor="description"
-            >
-              Description
-            </Label>
+            <Label>Description</Label>
             <TextArea
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
               rows={5}
               cols={30}
               placeholder="Ex : This charming 3-bedroom, 2-bathroom home boasts a spacious open floor plan with a modern kitchen featuring stainless steel appliances and a large island. "
@@ -341,29 +263,13 @@ export function CreateAuction() {
             />
           </LabelInputContainer>
           <LabelInputContainer>
-            <Label
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
-              htmlFor="thumbnail"
-            >
-              Image
-            </Label>
-            <FileUpload
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
-              setImage={setImage}
-              fileType={"image"}
-            />
+            <Label>Image</Label>
+            <FileUpload setImage={setImage} fileType={"image"} />
           </LabelInputContainer>
 
           <button
             onClick={() => handleSubmit()}
-            data-aos="fade-up"
-            data-aos-anchor-placement="top-bottom"
-            data-aos-duration="500"
-            className="bg-gradient-to-br relative group/btn bg-darkBrown block w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset]"
+            className="bg-gradient-to-br from-orange-700 to-orange-800 block w-full text-white rounded-md h-10 font-medium shadow-lg hover:scale-105 transition duration-200"
             type="submit"
           >
             Create
@@ -372,34 +278,13 @@ export function CreateAuction() {
         </div>
       </div>
       <div
-        data-aos="fade-up"
-        data-aos-anchor-placement="top-bottom"
-        data-aos-duration="500"
         className="bg-white w-full lg:w-1/2 p-8 rounded-md shadow-input flex flex-col space-y-4"
       >
-        <div
-          data-aos="fade-up"
-          data-aos-anchor-placement="top-bottom"
-          data-aos-duration="500"
-          id="section-accordion-flush"
-          data-accordion="collapse"
-          data-active-classes="bg-white text-gray-900"
-          data-inactive-classes="text-gray-500"
-        >
-          <h2
-            data-aos="fade-up"
-            data-aos-anchor-placement="top-bottom"
-            data-aos-duration="500"
-            className="font-bold text-xl text-neutral-800"
-          >
+        <div id="section-accordion-flush">
+          <h2 className="font-bold text-xl text-neutral-800">
             Auction Details
           </h2>
-          <p
-            data-aos="fade-up"
-            data-aos-anchor-placement="top-bottom"
-            data-aos-duration="500"
-            className="text-neutral-600 text-base w-full mt-2 mb-4"
-          >
+          <p className="text-neutral-600 text-base w-full mt-2 mb-4">
             Define the auction terms, including the start and end dates,
             starting price, etc. These settings will guide the auction and
             inform participants of the rules and payment methods.
@@ -407,18 +292,8 @@ export function CreateAuction() {
         </div>
         <div className="w-full flex flex-col space-y-4">
           <LabelInputContainer>
-            <Label
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
-              htmlFor="price"
-            >
-              Certificate Number
-            </Label>
+            <Label>Certificate Number</Label>
             <Input
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
               placeholder="Ex : 512839132023"
               type="text"
               value={certificateNumber}
@@ -426,18 +301,8 @@ export function CreateAuction() {
             />
           </LabelInputContainer>
           <LabelInputContainer>
-            <Label
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
-              htmlFor="price"
-            >
-              Start Auction
-            </Label>
+            <Label>Start Auction</Label>
             <Input
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
               placeholder="Ex: 21/10/2024 20:00"
               type="datetime-local"
               value={startAuction}
@@ -445,18 +310,8 @@ export function CreateAuction() {
             />
           </LabelInputContainer>
           <LabelInputContainer>
-            <Label
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
-              htmlFor="price"
-            >
-              End Auction
-            </Label>
+            <Label>End Auction</Label>
             <Input
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
               placeholder="Ex: 21/10/2024 20:00"
               type="datetime-local"
               value={endAuction}
@@ -464,18 +319,8 @@ export function CreateAuction() {
             />
           </LabelInputContainer>
           <LabelInputContainer>
-            <Label
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
-              htmlFor="price"
-            >
-              Start Price
-            </Label>
+            <Label>Start Price</Label>
             <Input
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-bottom"
-              data-aos-duration="500"
               min="1"
               step="1"
               placeholder="Ex : 2500 ICP"
@@ -489,3 +334,4 @@ export function CreateAuction() {
     </div>
   );
 }
+
