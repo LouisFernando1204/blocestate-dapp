@@ -109,6 +109,8 @@ const AuctionDetail = ({userBalance, setUserBalance}) => {
           certificateNumber={auction.certificateNumber}
           province={auction.province}
           city={auction.city}
+          postalCode={auction.postalCode}
+          address={auction.address}
         />
       ).toBlob();
       saveAs(blob, fileName);

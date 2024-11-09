@@ -75,6 +75,8 @@ export default function Certificate({
   certificateNumber,
   province,
   city,
+  address,
+  postalCode
 }) {
   return (
     <Document>
@@ -106,6 +108,14 @@ export default function Certificate({
           <View style={styles.inline}>
             <Text style={styles.boldText}>KABUPATEN/KOTA:</Text>
             <Text style={styles.text}> {city}</Text>
+          </View>
+          <View style={styles.inline}>
+            <Text style={styles.boldText}>ALAMAT:</Text>
+            <Text style={styles.text}> {address}</Text>
+          </View>
+          <View style={styles.inline}>
+            <Text style={styles.boldText}>KODE POS:</Text>
+            <Text style={styles.text}> {postalCode}</Text>
           </View>
         </View>
       </Page>
