@@ -3,7 +3,7 @@ import { TextGenerateEffect } from "./text-generate-effect";
 import { BackgroundBeamsWithCollision } from "../ui/background-beams-with-collision";
 
 const LoadingScreen = () => {
-  const words = `"Blocestate: Your Pathway to Smarter Property Auctions"`;
+  const words = `"Blocestate: The Future of Secure Real Estate Auctions in Indonesia"`;
   return (
     <BackgroundBeamsWithCollision className="min-h-screen h-full w-full flex flex-col items-center justify-center">
       <div className="flex flex-col space-y-2 items-center justify-center" role="status">

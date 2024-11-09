@@ -127,7 +127,6 @@ const AuctionDetail = ({userBalance, setUserBalance}) => {
         (participants[0] != null && parseInt(bid) > participants[0].amount) ||
         (participants[0] == null && parseInt(bid) > auction.startPrice)
       ) {
-        console.log(participants[0].amount);
         await bidAuction(auction.id, parseInt(bid));
         setUserBalance(userBalance - parseInt(bid));
       } else {
@@ -178,8 +177,6 @@ const AuctionDetail = ({userBalance, setUserBalance}) => {
       const timer = setInterval(() => {
         setTimeLeft(calculateTimeLeft());
 
-        console.log(timeLeft);
-
         if (
           timeLeft.days <= 0 &&
           timeLeft.hours <= 0 &&
@@ -190,9 +187,6 @@ const AuctionDetail = ({userBalance, setUserBalance}) => {
         ) {
           setHasWinner(true);
           processAuctionWinner();
-          console.log("loading : " + loading);
-          console.log("loading winner : " + loadingWinner);
-          console.log("has winner : " + hasWinner);
         }
       }, 1000);
 
@@ -313,7 +307,7 @@ const AuctionDetail = ({userBalance, setUserBalance}) => {
         {/* <!-- Product Details --> */}
         <div className="w-full md:w-1/2 px-8">
           <h2 className="text-3xl font-bold mb-2">{auction.address}</h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-300 mb-4">
             {auction.city}, {auction.province}, {auction.postalCode}
           </p>
           <div className="mb-4">
@@ -354,7 +348,7 @@ const AuctionDetail = ({userBalance, setUserBalance}) => {
                   {timeLeft.days}
                 </h3>
               </div>
-              <p className="text-lg font-Cormorant font-medium text-gray-900 mt-1 text-center w-full">
+              <p className="text-lg font-Cormorant font-medium text-white mt-1 text-center w-full">
                 days
               </p>
             </div>
@@ -364,7 +358,7 @@ const AuctionDetail = ({userBalance, setUserBalance}) => {
                   {timeLeft.hours}
                 </h3>
               </div>
-              <p className="text-lg font-Cormorant font-normal text-gray-900 mt-1 text-center w-full">
+              <p className="text-lg font-Cormorant font-normal text-white mt-1 text-center w-full">
                 hours
               </p>
             </div>
@@ -374,7 +368,7 @@ const AuctionDetail = ({userBalance, setUserBalance}) => {
                   {timeLeft.minutes}
                 </h3>
               </div>
-              <p className="text-lg font-Cormorant font-normal text-gray-900 mt-1 text-center w-full">
+              <p className="text-lg font-Cormorant font-normal text-white mt-1 text-center w-full">
                 minutes
               </p>
             </div>
@@ -384,14 +378,14 @@ const AuctionDetail = ({userBalance, setUserBalance}) => {
                   {timeLeft.seconds}
                 </h3>
               </div>
-              <p className="text-lg font-Cormorant font-normal text-gray-900 mt-1 text-center w-full">
+              <p className="text-lg font-Cormorant font-normal text-white mt-1 text-center w-full">
                 seconds
               </p>
             </div>
           </div>
 
-          <p className="text-gray-700 mt-6 mb-4">{auction.description}</p>
-          <p className="text-gray-700 mb-6">
+          <p className="text-gray-400 mt-6 mb-4">{auction.description}</p>
+          <p className="text-gray-400 mb-6">
             <span className="font-semibold">Area:</span> {auction.houseArea} m
             <sup></sup> | <span className="font-semibold">Year Built:</span>{" "}
             {auction.yearBuilt} | Created by{" "}
@@ -441,7 +435,7 @@ const AuctionDetail = ({userBalance, setUserBalance}) => {
                     <span className="sr-only">Close modal</span>
                   </button>
                   <div className="p-4 md:p-5 text-center">
-                    <h3 className="mb-5 text-lg md:text-xl font-semibold text-gray-90">
+                    <h3 className="mb-5 text-lg md:text-xl font-semibold text-black">
                       Insert your bidding amount!
                     </h3>
 

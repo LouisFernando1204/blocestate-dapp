@@ -52,7 +52,7 @@ const RecommendedSection = ({auctions}) => {
                     Don’t Miss Out!
                 </h2>
                 <p className="text-white mb-12 text-lg">
-                    Here are the top 10 auctions ending soon
+                    Here are the top auctions ending soon
                 </p>
 
                 {/* Cards Grid */}
@@ -80,7 +80,7 @@ const RecommendedSection = ({auctions}) => {
                                     />
                                 </div>
 
-                                <div className="pt-6">
+                                <div className="pt-6 text-start">
                                     <p className="text-lg font-semibold leading-tight text-white hover:underline ">
                                         {auction.address}, {auction.city}, {auction.province}, {auction.postalCode}
                                     </p>

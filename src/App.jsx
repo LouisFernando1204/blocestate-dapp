@@ -22,7 +22,9 @@ function App() {
     }
   };
 
-  useEffect(() => { }, [connectedPrincipal]);
+  useEffect(() => { 
+
+  }, [connectedPrincipal]);
 
   return (
     <Routes>

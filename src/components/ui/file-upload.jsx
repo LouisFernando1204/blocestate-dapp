@@ -94,10 +94,10 @@ export const FileUpload = ({ setImage, fileType }) => {
                     <GridPattern />
                 </div>
                 <div className="flex flex-col items-center justify-center">
-                    <p className="text-center relative z-20 font-sans font-bold text-white text-base">
+                    <p className="text-center relative z-20 font-sans font-bold text-black text-base">
                         Upload your real estate {fileType}
                     </p>
-                    <p className="text-center relative z-20 font-sans font-normal text-white text-base mt-2">
+                    <p className="text-center relative z-20 font-sans font-normal text-black text-base mt-2">
                         Drag or drop your {fileType} here or click to upload
                     </p>
                     <div className="relative w-full mt-10 max-w-xl mx-auto">

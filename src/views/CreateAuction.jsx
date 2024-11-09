@@ -17,20 +17,22 @@ import LoadingScreen from "../components/ui/loading-screen";
 export function CreateAuction() {
   const navigate = useNavigate();
 
-  const [address, setAddress] = useState("");
-  const [province, setProvince] = useState("");
-  const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [category, setCategory] = useState("");
-  const [area, setArea] = useState("");
-  const [builtYear, setBuiltYear] = useState("");
-  const [description, setDescription] = useState("");
+  const [address, setAddress] = useState("Jalan Diamond Hill No. 140");
+  const [province, setProvince] = useState("East Java");
+  const [city, setCity] = useState("Surabaya");
+  const [postalCode, setPostalCode] = useState("60219");
+  const [category, setCategory] = useState("House");
+  const [area, setArea] = useState("300");
+  const [builtYear, setBuiltYear] = useState("2019");
+  const [description, setDescription] = useState(
+    "This is a grand two-story house with a classic architectural style, featuring large columns and a spacious balcony at the front. The tall, gated entrance and perimeter wall provide privacy and a sense of elegance. Palm trees add a tropical feel to the exterior, enhancing its welcoming and stylish appearance. The home appears spacious, with tall windows that likely allow ample natural light inside, creating a bright and airy atmosphere. The design exudes a luxurious vibe, making it an ideal choice for those seeking both comfort and sophistication."
+  );
   const [image, setImage] = useState(null);
 
-  const [certificateNumber, setCertificateNumber] = useState("");
+  const [certificateNumber, setCertificateNumber] = useState("601273821");
   const [startAuction, setStartAuction] = useState("");
   const [endAuction, setEndAuction] = useState("");
-  const [startPrice, setStartPrice] = useState("");
+  const [startPrice, setStartPrice] = useState("400");
   const [isLoading, setIsLoading] = useState(false);
 
   const pinata = new PinataSDK({
@@ -103,7 +105,7 @@ export function CreateAuction() {
     setStartAuction("");
     setEndAuction("");
     setStartPrice("");
-  }
+  };
 
   const handleSubmit = async () => {
     if (
@@ -145,11 +147,9 @@ export function CreateAuction() {
             parseInt(certificateNumber),
             certificateUploaded
           );
-        }
-        catch (error) {
-          console.log(error)
-        }
-        finally {
+        } catch (error) {
+          console.log(error);
+        } finally {
           setIsLoading(false);
           reset();
           successAlert();
