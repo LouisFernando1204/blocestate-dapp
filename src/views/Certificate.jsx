@@ -76,7 +76,8 @@ export default function Certificate({
   province,
   city,
   address,
-  postalCode
+  postalCode,
+  area
 }) {
   return (
     <Document>
@@ -116,6 +117,10 @@ export default function Certificate({
           <View style={styles.inline}>
             <Text style={styles.boldText}>KODE POS:</Text>
             <Text style={styles.text}> {postalCode}</Text>
+          </View>
+          <View style={styles.inline}>
+            <Text style={styles.boldText}>LUAS:</Text>
+            <Text style={styles.text}> {area}m²</Text>
           </View>
         </View>
       </Page>

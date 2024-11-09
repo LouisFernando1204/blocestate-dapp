@@ -111,6 +111,7 @@ const AuctionDetail = ({userBalance, setUserBalance}) => {
           city={auction.city}
           postalCode={auction.postalCode}
           address={auction.address}
+          area={auction.houseArea}
         />
       ).toBlob();
       saveAs(blob, fileName);
