@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 "use client";
 import React, { useEffect, useState, Suspense } from "react";
 import { globeConfig, sampleArcs } from "../components/ui/globe";
@@ -10,14 +12,10 @@ const World = React.lazy(() =>
   import("../components/ui/globe").then((m) => ({ default: m.World }))
 );
 
-const Auction = () => {
+const Auction = ({userBalance}) => {
   const [errorMessage, setErrorMessage] = useState(null); // Define errorMessage to avoid undefined error
   const [auctions, setAuctions] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const dummyData = {
-    ICP_UserBalance: 100
-  };
 
   useEffect(() => {
     const fetchAuctions = async () => {
@@ -41,40 +39,25 @@ const Auction = () => {
   }
 
   return (
-    <div className="h-full w-full flex flex-col space-y-8 items-center justify-center">
-      {errorMessage ? (
-        <ErrorMessage
-          errorCode={400}
-          errorName={"Bad Request"}
-          errorMessage={errorMessage}
-        />
-      ) : (
-        <>
-          <section className="mt-20 bg-gray-50 py-8 antialiased md:py-12">
+    <div className="flex flex-col justify-center items-center space-y-6 pt-8 h-full w-full">
+     <section className="">
             <div className="mx-auto max-w-screen-xl">
-              {/* <!-- Heading & Filters --> */}
+              {/* Heading & Filters */}
               <div className="items-center justify-between space-y-4 sm:flex sm:space-y-0 mb-8">
                 <div className="mt-3 flex flex-col md:flex-row items-center justify-center space-x-4">
-                  <h2 className="text-3xl font-semibold text-gray-900 text-center md:text-start">
-                    Your Balance: {dummyData.ICP_UserBalance} ICP{" "}
+                  <h2 className="text-3xl font-semibold text-[#e5e5e5] text-center md:text-start">
+                    Your Balance: {userBalance} ICP{" "}
                   </h2>
-                  <h3 className="italic font-light text-gray-500 sm:text-xl text-center md:text-start">
-                    "Find your dream property"
+                  <h3 className="italic font-light text-gray-400 sm:text-xl text-center md:text-start">
+                    {`"Find your dream property"`}
                   </h3>
                 </div>
-                <div className="">
+                <div>
                   <form className="mx-auto">
-                    <label
-                      htmlFor="default-search"
-                      className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-                    >
-                      Search
-                    </label>
                     <div className="relative w-full">
                       <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg
-                          className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                          aria-hidden="true"
+                          className="w-4 h-4 text-gray-400"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 20 20"
@@ -91,13 +74,13 @@ const Auction = () => {
                       <input
                         type="search"
                         id="default-search"
-                        className="block w-full md:w-96 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-amber-500 focus:border-amber-500"
-                        placeholder=" Cozy House..."
+                        className="block w-full md:w-96 p-4 ps-10 text-sm text-white bg-[#333333] border border-gray-500 rounded-lg focus:ring-amber-500 focus:border-amber-500"
+                        placeholder="Cozy House..."
                         required
                       />
                       <button
                         type="submit"
-                        className="text-white absolute end-2.5 bottom-2.5 bg-darkBrown hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+                        className="text-white absolute end-2.5 bottom-2.5 bg-[#444444] hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-500 font-medium rounded-lg text-sm px-4 py-2"
                       >
                         Search
                       </button>
@@ -106,31 +89,31 @@ const Auction = () => {
                 </div>
               </div>
 
-              {/* <!-- Products Grid --> */}
+              {/* Products Grid */}
               <div className="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
                 {auctions.map((auction, index) => (
                   <div
                     key={index}
-                    className="rounded-lg border border-gray-200 bg-white p-6 shadow-xl hover:scale-105 duration-200 "
+                    className="rounded-lg border border-gray-600 bg-[#2a2a2a] p-6 shadow-lg hover:scale-105 duration-200"
                   >
-                    <Link 
-                    to={`/auction/${auction.id}`}>
+                    <Link to={`/auction/${auction.id}`}>
                       <div className="relative h-56 w-full">
-                        <div className="absolute top-0 left-0 z-10 flex items-center gap-4 p-2 text-sm text-white bg-darkBrown shadow-md rounded-br-xl">
+                        <div className="absolute top-0 left-0 z-10 flex items-center gap-4 p-2 text-sm text-white bg-[#444444] shadow-md rounded-br-xl">
                           <p>{auction.propertyType}</p>
                         </div>
                         <img
-                          className="mx-auto h-full "
+                          className="mx-auto h-full"
                           src={`https://gateway.pinata.cloud/ipfs/${auction.image}`}
-                          alt=""
+                          alt="Auction Property"
                         />
                       </div>
 
                       <div className="pt-6">
-                        <a className="text-lg font-semibold leading-tight text-gray-900 hover:underline ">
-                          {auction.address}, {auction.city}, {auction.province}, {auction.postalCode}
+                        <a className="text-lg font-semibold leading-tight text-[#e5e5e5] hover:underline">
+                          {auction.address}, {auction.city}, {auction.province},{" "}
+                          {auction.postalCode}
                         </a>
-                        <p className="mt-1 text-sm font-medium text-gray-500 ">
+                        <p className="mt-1 text-sm font-medium text-gray-400">
                           {auction.houseArea} m<sup>2</sup>
                         </p>
 
@@ -139,9 +122,9 @@ const Auction = () => {
                             <img
                               className="w-4"
                               src="https://img.icons8.com/material-sharp/24/calendar--v1.png"
-                              alt="calendar--v1"
+                              alt="calendar"
                             />
-                            <p className="text-sm font-medium text-gray-500 ">
+                            <p className="text-sm font-medium text-gray-400">
                               {convertTimestamp(auction.startAuction)}
                             </p>
                           </li>
@@ -150,9 +133,9 @@ const Auction = () => {
                             <img
                               className="w-4"
                               src="https://img.icons8.com/ios/50/arrow--v1.png"
-                              alt="arrow--v1"
+                              alt="arrow"
                             />
-                            <p className="text-sm font-medium text-gray-500 ">
+                            <p className="text-sm font-medium text-gray-400">
                               {convertTimestamp(auction.endAuction)}
                             </p>
                           </li>
@@ -160,22 +143,22 @@ const Auction = () => {
 
                         <div className="mt-4 flex items-center justify-between gap-4">
                           <div>
-                            <p className="text-sm font-medium text-gray-500 ">
+                            <p className="text-sm font-medium text-gray-400">
                               Start from
                             </p>
-                            <p className="text-2xl font-extrabold leading-tight text-gray-900 ">
+                            <p className="text-2xl font-extrabold leading-tight text-[#e5e5e5]">
                               {auction.startPrice} ICP
                             </p>
                           </div>
 
                           <button
                             type="button"
-                            className="inline-flex items-center rounded-lg bg-amber-900 px-5 py-2.5 gap-2 text-sm font-medium text-white hover:bg-amber-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
+                            className="inline-flex items-center rounded-lg bg-amber-900 px-5 py-2.5 gap-2 text-sm font-medium text-white hover:bg-amber-800 focus:outline-none focus:ring-4 focus:ring-amber-600"
                           >
                             <img
                               className="w-4"
-                              src="\images\bidding.png"
-                              alt="arrow--v1"
+                              src="/images/bidding.png"
+                              alt="Bid Icon"
                             />
                             Bid
                           </button>
@@ -188,15 +171,14 @@ const Auction = () => {
             </div>
           </section>
 
-          <div className="w-full h-0.5 bg-gray-300 max-w-7xl" />
+          <div className="w-full h-0.5 bg-gray-600 max-w-7xl" />
 
           {/* Globe Section */}
-
           <div className="flex flex-col items-center mx-auto w-full relative overflow-hidden h-[30rem] sm:h-[30rem] md:h-[40rem] px-4 sm:px-8">
-            <h1 className="text-3xl font-semibold text-gray-900 text-center">
+            <h1 className="text-3xl font-semibold text-[#e5e5e5] text-center">
               Discover Property Auctions Worldwide, Secure and Easy
             </h1>
-            <p className="mt-4 md:mt-2 text-lg font-light text-gray-500 text-center">
+            <p className="mt-4 md:mt-2 text-lg font-light text-gray-400 text-center">
               Empowered by blockchain, find and bid on properties seamlessly
               from anywhere in the world.
             </p>
@@ -205,9 +187,7 @@ const Auction = () => {
               <World data={sampleArcs} globeConfig={globeConfig} />
             </Suspense>
           </div>
-        </>
-      )}
-    </div>
+          </div>
   );
 };
 

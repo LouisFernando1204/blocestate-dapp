@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   Image,
   Page,
@@ -10,59 +11,63 @@ import {
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
-    backgroundColor: "#F0F0F0",
+    backgroundColor: "#E5E5E5",
     justifyContent: "center",
     alignItems: "center",
-    padding: 20
+    padding: 20,
   },
   container: {
     marginTop: 10,
     marginBottom: 10,
     padding: 10,
-    width: "90%", // Adjusted the width to 90% to fit better within the page
-  },
-  textContainer: {
-    // marginLeft: 20,
+    width: "85%", // Slightly reduced width for better centering
   },
   headerContainer: {
-    alignItems: "center", // Keep the header in the center
+    alignItems: "center",
     justifyContent: "center",
+    marginBottom: 10,
   },
   header: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "bold",
     textAlign: "center",
+    color: "#333333",
   },
   text: {
-    fontSize: 16,
+    fontSize: 15,
+    color: "#333333",
   },
   boldNumber: {
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  textNumber: {
-    fontSize: 14,
-  },
-  boldText: {
     fontSize: 16,
     fontWeight: "bold",
+    color: "#333333",
+  },
+  textNumber: {
+    fontSize: 16,
+    color: "#333333",
+  },
+  boldText: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#333333",
   },
   image: {
-    width: 250,
-    height: 250,
-    marginTop: 25,
-    marginBottom: 25,
+    width: 200,
+    height: 200,
+    marginTop: 20,
+    marginBottom: 20,
   },
   inline: {
     flexDirection: "row",
     marginTop: 6,
     marginBottom: 6,
+    alignItems: "baseline",
   },
   inlineNumber: {
     flexDirection: "row",
     marginTop: 14,
     marginBottom: 10,
-    justifyContent: "center", // Keep the certificate number in the center
+    justifyContent: "center",
   },
 });
 
@@ -74,9 +79,9 @@ export default function Certificate({
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Header and Image in the Center */}
+        {/* Header */}
         <View style={[styles.container, styles.headerContainer]}>
-          <Text style={styles.header}>BADAN PERTAHANAN NASIONAL</Text>
+          <Text style={styles.header}>BADAN PERTANAHAN NASIONAL</Text>
           <Text style={styles.header}>REPUBLIK INDONESIA</Text>
           <Image
             source="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/National_emblem_of_Indonesia_Garuda_Pancasila.svg/1200px-National_emblem_of_Indonesia_Garuda_Pancasila.svg.png"
@@ -86,22 +91,21 @@ export default function Certificate({
           <Text style={styles.header}>HAK MILIK ATAS SATUAN PROPERTI</Text>
         </View>
 
-        {/* Certificate Number in the Center */}
+        {/* Certificate Number */}
         <View style={styles.inlineNumber}>
-          <Text style={styles.boldNumber}>Nomor : </Text>
-          <Text style={styles.textNumber}>{certificateNumber}</Text>
+          <Text style={styles.boldNumber}>Nomor :</Text>
+          <Text style={styles.textNumber}> {certificateNumber}</Text>
         </View>
 
-        {/* Provinsi and Kabupaten/Kota Aligned Left, but shifted to the right */}
-        <View style={styles.textContainer}>
+        {/* Location Details */}
+        <View style={styles.container}>
           <View style={styles.inline}>
-            <Text style={styles.boldText}>PROVINSI                : </Text>
-            <Text style={styles.text}>{province}</Text>
+            <Text style={styles.boldText}>PROVINSI:</Text>
+            <Text style={styles.text}> {province}</Text>
           </View>
-
           <View style={styles.inline}>
-            <Text style={styles.boldText}>KABUPATEN/KOTA  : </Text>
-            <Text style={styles.text}>{city}</Text>
+            <Text style={styles.boldText}>KABUPATEN/KOTA:</Text>
+            <Text style={styles.text}> {city}</Text>
           </View>
         </View>
       </Page>

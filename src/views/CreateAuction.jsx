@@ -17,20 +17,20 @@ import LoadingScreen from "../components/ui/loading-screen";
 export function CreateAuction() {
   const navigate = useNavigate();
 
-  const [address, setAddress] = useState("Jl. Mawar 123");
-  const [province, setProvince] = useState("East Java");
-  const [city, setCity] = useState("Surabaya");
-  const [postalCode, setPostalCode] = useState("60116");
-  const [category, setCategory] = useState("House");
-  const [area, setArea] = useState("1000");
-  const [builtYear, setBuiltYear] = useState("1952");
-  const [description, setDescription] = useState("lorem ipsum dolor sit amet");
+  const [address, setAddress] = useState("");
+  const [province, setProvince] = useState("");
+  const [city, setCity] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [category, setCategory] = useState("");
+  const [area, setArea] = useState("");
+  const [builtYear, setBuiltYear] = useState("");
+  const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
 
-  const [certificateNumber, setCertificateNumber] = useState("6344238123");
+  const [certificateNumber, setCertificateNumber] = useState("");
   const [startAuction, setStartAuction] = useState("");
   const [endAuction, setEndAuction] = useState("");
-  const [startPrice, setStartPrice] = useState("10");
+  const [startPrice, setStartPrice] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const pinata = new PinataSDK({
@@ -166,12 +166,12 @@ export function CreateAuction() {
   }
 
   return (
-    <div className="w-full h-full my-24 mx-auto p-4 md:p-6 shadow-input bg-gray-100 flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
+    <div className="flex flex-col justify-center items-start w-full h-full mx-auto p-4 md:p-6 shadow-input bg-gray-100 space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
       <div
         data-aos="fade-up"
         data-aos-anchor-placement="top-bottom"
         data-aos-duration="500"
-        className="bg-white w-full lg:w-1/2 p-8 rounded-md shadow-input"
+        className="bg-white w-full h-full lg:w-1/2 p-8 rounded-md shadow-input"
       >
         <h2 className="font-bold text-xl text-neutral-800">
           Real Estate Details{" "}
@@ -363,7 +363,7 @@ export function CreateAuction() {
             data-aos="fade-up"
             data-aos-anchor-placement="top-bottom"
             data-aos-duration="500"
-            className="bg-gradient-to-br relative group/btn bg-darkBrown block w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset]"
+            className="relative group/btn bg-darkBrown block w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset]"
             type="submit"
           >
             Create
@@ -375,7 +375,7 @@ export function CreateAuction() {
         data-aos="fade-up"
         data-aos-anchor-placement="top-bottom"
         data-aos-duration="500"
-        className="bg-white w-full lg:w-1/2 p-8 rounded-md shadow-input flex flex-col space-y-4"
+        className="bg-white w-full h-full lg:w-1/2 p-8 rounded-md shadow-input flex flex-col space-y-4"
       >
         <div
           data-aos="fade-up"
@@ -385,6 +385,7 @@ export function CreateAuction() {
           data-accordion="collapse"
           data-active-classes="bg-white text-gray-900"
           data-inactive-classes="text-gray-500"
+          className="w-full h-full"
         >
           <h2
             data-aos="fade-up"
@@ -405,7 +406,7 @@ export function CreateAuction() {
             inform participants of the rules and payment methods.
           </p>
         </div>
-        <div className="w-full flex flex-col space-y-4">
+        <div className="w-full h-full flex flex-col space-y-4">
           <LabelInputContainer>
             <Label
               data-aos="fade-up"

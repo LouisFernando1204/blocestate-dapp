@@ -1,4 +1,3 @@
-
 import { idlFactory } from "../idl/service.did";
 import { Actor, HttpAgent } from "@dfinity/agent";
 
@@ -12,7 +11,7 @@ export async function connectWallet() {
       whitelist,
     });
     return window.ic.plug.principalId;
-  } 
+  }
   catch (error) {
     console.log(error);
     return;
@@ -37,24 +36,5 @@ export async function getActorWithLogin() {
       canisterId: nnsCanisterId,
     });
     return actor;
-  }
-}
-
-export async function addVerifiedUser(verificationHash) {
-  try {
-      const actor = await getActorWithLogin();
-
-      const verificationMessage = await actor.checkParticipantVerification();
-
-      if (verificationMessage == "Verification hash not found!") {
-          await actor.addVerifiedUser(verificationHash);
-          console.log("User verified and added successfully.");
-      } else {
-          console.log("User already verified with hash:", verificationMessage);
-      }
-  } catch (error) {
-      const actor = await getActorWithLogin();
-      console.log("No verification hash found, proceeding to add user.");
-      await actor.addVerifiedUser(verificationHash);
   }
 }

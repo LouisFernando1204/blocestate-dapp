@@ -7,7 +7,7 @@ import LoadingScreen from "../components/ui/loading-screen";
 import IDAnalyzer from 'idanalyzer';
 import { PinataSDK } from "pinata-web3";
 import Swal from 'sweetalert2'
-import { addVerifiedUser } from "../service/connector";
+import { addVerifiedUser } from "../service/participant";
 
 const Verification = ({ principal }) => {
   const identityVideoRef = useRef(null);
@@ -261,7 +261,7 @@ const Verification = ({ principal }) => {
   if (isLoading) return <LoadingScreen />;
 
   return (
-    <div className="flex flex-col justify-center items-center space-y-6 p-8 h-full w-full z-20">
+    <div className="flex flex-col justify-center items-center space-y-6 p-8 h-full w-full">
       <div className="flex flex-col space-y-4 lg:flex-row lg:space-y-0 lg:space-x-4 justify-center items-center">
 
         <div data-aos="fade-up"

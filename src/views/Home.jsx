@@ -1,31 +1,64 @@
-import { pdf } from "@react-pdf/renderer";
-import Certificate from "./Certificate";
-import { saveAs } from 'file-saver';
-import { useEffect } from 'react';
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import HeroSection from "../components/sections/HeroSection";
+import AdvantageSection from "../components/sections/AdvantagesSection";
+import RecommendedSection from "../components/sections/RecommendedSection";
+import LoadingScreen from "../components/ui/loading-screen";
+import { getAllAuctions } from "../service/auction";
+import { checkParticipantVerification } from "../service/participant";
 
-const Home = () => {
+const Home = ({ principal }) => {
+  console.log("principal sudah masuk home: " + principal);
+  const [auctions, setAuctions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const handleClick = async () => {
+    const fetchAuctions = async () => {
       try {
-        const fileName = 'certificate.pdf';
-        const blob = await pdf(<Certificate
-          certificateNumber={100}
-          province={"East Java"}
-          city={"Surabaya"}
-        />).toBlob();
-        saveAs(blob, fileName);
+        setLoading(true);
+        const data = await getAllAuctions();
+        setAuctions(data);
+        console.log(data);
       } catch (error) {
-        console.error("Error generating PDF:", error);
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
-    // handleClick();  
-  }, [])
-  
+    fetchAuctions();
+  }, []);
+
+  useEffect(() => {
+    const verifyParticipant = async () => {
+      try {
+        setLoading(true);
+        await checkParticipantVerification();
+        navigate("/verification");
+
+      } catch (error) {
+        console.log(error);
+        navigate("/verification");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (principal) {
+      verifyParticipant();
+    }
+  }, [principal, navigate]);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ex officiis
-      fugiat dolore, explicabo ut est nihil sit optio? Minus autem architecto
-      ducimus aspernatur voluptates dignissimos incidunt recusandae maiores non.
+    <div className="flex flex-col justify-center items-center h-full w-full">
+      <HeroSection />
+      <AdvantageSection />
+      <RecommendedSection auctions={auctions} />
     </div>
   );
 };

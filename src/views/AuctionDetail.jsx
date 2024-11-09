@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   decideFinalBid,
@@ -15,7 +18,7 @@ import { saveAs } from "file-saver";
 import { pdf } from "@react-pdf/renderer";
 import Certificate from "./Certificate";
 
-const AuctionDetail = () => {
+const AuctionDetail = ({userBalance, setUserBalance}) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -124,7 +127,9 @@ const AuctionDetail = () => {
         (participants[0] != null && parseInt(bid) > participants[0].amount) ||
         (participants[0] == null && parseInt(bid) > auction.startPrice)
       ) {
+        console.log(participants[0].amount);
         await bidAuction(auction.id, parseInt(bid));
+        setUserBalance(userBalance - parseInt(bid));
       } else {
         error = true;
         errorRequiredGreaterAmount();
@@ -279,9 +284,9 @@ const AuctionDetail = () => {
   }
 
   return (
-    <div className="mt-32 container mx-auto md:px-4 py-8">
-      <div className="flex flex-wrap -mx-4">
-        <div className="w-full md:w-1/2 px-4 mb-8">
+    <div className="flex flex-col justify-center items-center space-y-4 p-12 h-full w-full">
+      <div className="flex flex-wrap -mx-4 w-full">
+        <div className="w-full md:w-1/2 mb-8">
           <div className="relative flex flex-col w-full items-center">
             <div className="relative self-center justify-center items-center flex">
               <div className="absolute top-2 left-2 z-10 flex items-center gap-4 p-4 text-white bg-darkBrown shadow-md rounded-br-xl">
@@ -306,7 +311,7 @@ const AuctionDetail = () => {
         </div>
 
         {/* <!-- Product Details --> */}
-        <div className="w-full md:w-1/2 px-4">
+        <div className="w-full md:w-1/2 px-8">
           <h2 className="text-3xl font-bold mb-2">{auction.address}</h2>
           <p className="text-gray-600 mb-4">
             {auction.city}, {auction.province}, {auction.postalCode}
@@ -490,8 +495,8 @@ const AuctionDetail = () => {
         </div>
       </div>
 
-      <div className="my-8 flex justify-center items-center gap-16">
-        <div className="w-full max-w-2xl p-4 bg-gray-100 border border-gray-200 rounded-lg shadow-xl sm:p-8">
+      <div className="flex justify-center items-center gap-16 w-full">
+        <div className="w-full p-4 bg-gray-100 border border-gray-200 rounded-lg shadow-xl sm:p-8">
           <div className="flex items-center justify-between mb-4">
             <h5 className="text-xl font-bold leading-none text-gray-900">
               Bidding History
