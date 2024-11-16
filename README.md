@@ -21,7 +21,7 @@ Welcome to BlocEstate, a blockchain-based platform for real estate auctions on t
 - 🔑 App Flow : [View Flow](https://drive.google.com/file/d/16Z1ewb71s-_dzZjyZ4kz9kJjiSFxCDgZ/view?usp=sharing)
 - 📝 Set Up Guide : [View Guide](https://github.com/yebology/blocestate-setup-guide.git)
 - 📖 Usage Guidebook : [View Guide](https://drive.google.com/file/d/1k32GeR2mf80nQCAEg_CBkVRE5zhV697H/view?usp=drive_link)
-- 🎥 Demo Video : [Watch Video](https://drive.google.com/file/d/1bappSjbL20v4Ncxy0aKV1wFjWoalTbID/view?usp=drive_link)
+- 🎥 Demo Video : [Watch Video](https://drive.google.com/file/d/1woOIngYwa_lxsd1MBnSu9ii1GV5BNXpF/view?usp=drive_link)
 
 ## ⚙️ Tech Stack Behind BlocEstate
 - 🖥️ Frontend : ReactJS (Javascript)
