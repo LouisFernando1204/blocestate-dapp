@@ -8,8 +8,7 @@ import LoadingScreen from "../components/ui/loading-screen";
 import { getAllAuctions } from "../service/auction";
 import { checkParticipantVerification } from "../service/participant";
 
-const Home = ({ principal }) => {
-  console.log("principal sudah masuk home: " + principal);
+const Home = ({ principal, isVerify, setIsVerify }) => {
   const [auctions, setAuctions] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -20,7 +19,6 @@ const Home = ({ principal }) => {
         setLoading(true);
         const data = await getAllAuctions();
         setAuctions(data);
-        console.log(data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -36,16 +34,16 @@ const Home = ({ principal }) => {
         setLoading(true);
         await checkParticipantVerification();
         navigate("/verification");
-
       } catch (error) {
         console.log(error);
         navigate("/verification");
       } finally {
         setLoading(false);
+        setIsVerify(true);
       }
     };
 
-    if (principal) {
+    if (principal && isVerify == false) {
       verifyParticipant();
     }
   }, [principal, navigate]);

@@ -14,7 +14,13 @@ const World = React.lazy(() =>
 
 const Auction = ({ userBalance }) => {
   const [auctions, setAuctions] = useState([]);
+  const [filteredAuctions, setFilteredAuctions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
 
   useEffect(() => {
     const fetchAuctions = async () => {
@@ -30,6 +36,17 @@ const Auction = ({ userBalance }) => {
     };
     fetchAuctions();
   }, []);
+
+  useEffect(() => {
+    if (auctions) {
+      const filtered = auctions.filter((auction) =>
+        `${auction.address} ${auction.city} ${auction.province} ${auction.propertyType}`
+          .toLowerCase()
+          .includes(searchQuery)
+      );
+      setFilteredAuctions(filtered);
+    }
+  }, [auctions, searchQuery]);
 
   if (loading) {
     return <LoadingScreen />;
@@ -73,6 +90,8 @@ const Auction = ({ userBalance }) => {
                     id="default-search"
                     className="block w-full md:w-96 p-4 ps-10 text-sm text-white bg-[#333333] border border-gray-500 rounded-lg focus:ring-amber-500 focus:border-amber-500"
                     placeholder="Cozy House..."
+                    value={searchQuery}
+                    onChange={handleSearch}
                     required
                   />
                   <button
@@ -88,7 +107,7 @@ const Auction = ({ userBalance }) => {
 
           {/* Products Grid */}
           <div className="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
-            {auctions.map((auction, index) => (
+            {filteredAuctions.map((auction, index) => (
               <div
                 key={index}
                 className="rounded-lg border border-gray-600 bg-[#2a2a2a] p-6 shadow-lg hover:scale-105 duration-200"
