@@ -40,11 +40,13 @@ const Home = ({ principal, isVerify, setIsVerify }) => {
       } finally {
         setLoading(false);
         setIsVerify(true);
+        sessionStorage.setItem('verify', true);
       }
     };
-
-    if (principal && isVerify == false) {
+    const isVerified = sessionStorage.getItem('verify');
+    if (principal && !isVerified) {
       verifyParticipant();
+      sessionStorage.setItem('verify', false);
     }
   }, [principal, navigate]);
 
