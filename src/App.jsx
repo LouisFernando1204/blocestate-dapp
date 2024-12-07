@@ -6,7 +6,8 @@ import Auction from "./views/Auction"
 import { CreateAuction } from "./views/CreateAuction"
 import Layout from "./components/fixed/Layout"
 import {
-  connectWallet,
+  connectInternetIdentity,
+  getCurrentIdentity,
 } from "./service/connector";
 import { useEffect, useState } from "react";
 
@@ -16,10 +17,17 @@ function App() {
   const [isVerify, setIsVerify] = useState(false);
 
   const handleConnect = async () => {
-    const principal = await connectWallet();
-    if (principal) {
-      setConnectedPrincipal(principal);
-      console.log("Connected to wallet:", principal);
+    try {
+      await connectInternetIdentity();
+    }
+    catch (error) {
+      console.log(error)
+    }
+    finally {
+      const principal = getCurrentIdentity();
+      if (principal) {
+        setConnectedPrincipal(principal)
+      }
     }
   };
 

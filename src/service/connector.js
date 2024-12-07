@@ -1,21 +1,27 @@
 import { idlFactory } from "../idl/service.did";
 import { Actor, HttpAgent } from "@dfinity/agent";
+import { AuthClient } from "@dfinity/auth-client";
 
 const nnsCanisterId = "o2w3q-vaaaa-aaaag-atsda-cai";
 const host = "https://ic0.app";
+let identity;
 
-export async function connectWallet() {
-  const whitelist = [nnsCanisterId];
-  try {
-    await window?.ic?.plug?.requestConnect({
-      whitelist,
-    });
-    return window.ic.plug.principalId;
-  }
-  catch (error) {
-    console.log(error);
-    return;
-  }
+export async function connectInternetIdentity() {
+  const authClient = await AuthClient.create();
+  const iiUrl = "https://identity.ic0.app";
+  await new Promise((resolve, object) => {
+    authClient.login({
+      identityProvider: iiUrl,
+      onSuccess: resolve,
+      onError: object
+    })
+  })
+  identity = authClient.getIdentity();
+  console.log(identity.getPrincipal().toText());
+}
+
+export function getCurrentIdentity() {
+  return identity;
 }
 
 export async function getActorWithoutLogin() {
@@ -28,9 +34,8 @@ export async function getActorWithoutLogin() {
 }
 
 export async function getActorWithLogin() {
-  const publicKey = await window.ic.plug.agent.getPrincipal();
-  if (publicKey) {
-    const agent = new HttpAgent({ publicKey, host: host });
+  if (identity) {
+    const agent = new HttpAgent({ identity, host: host });
     const actor = Actor.createActor(idlFactory, {
       agent,
       canisterId: nnsCanisterId,
