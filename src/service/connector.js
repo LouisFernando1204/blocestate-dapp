@@ -21,7 +21,7 @@ export async function connectInternetIdentity() {
 }
 
 export function getCurrentIdentity() {
-  return identity;
+  return identity.getPrincipal().toText();
 }
 
 export async function getActorWithoutLogin() {

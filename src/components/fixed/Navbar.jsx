@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { navList } from "../../utils/list";
-import plug from "../../assets/plug.png";
+import internet_identity from "../../assets/internet_identity.png";
 import { truncate } from "../../lib/utils";
 import { Link } from "react-router-dom";
 
@@ -39,7 +39,7 @@ const Navbar = ({ principal, handleConnect }) => {
               <button className="relative bg-[#2a2a2a] p-2 md:p-3.5 rounded-xl hover:scale-105 duration-200 flex items-center gap-2 shadow-md">                <span className="animate-ping absolute -top-1 -right-1 h-3 w-3 rounded-full bg-amber-600 opacity-75"></span>
                 <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-amber-700"></span>
 
-                <img src={plug} alt="plug" className="h-8" />
+                <img src={internet_identity} alt="plug" className="h-8" />
                 <h1 className="text-gray-300 font-semibold">
                   {truncate(principal, 4, 4, 11)}
                 </h1>
@@ -53,7 +53,7 @@ const Navbar = ({ principal, handleConnect }) => {
                 <span className="animate-ping absolute -top-1 -right-1 h-3 w-3 rounded-full bg-amber-600 opacity-75"></span>
                 <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-amber-700"></span>
 
-                <img src={plug} alt="plug" className="h-8" />
+                <img src={internet_identity} alt="plug" className="h-8" />
                 <h1 className="text-gray-300 font-semibold">Connect Wallet</h1>
               </button>
             )}

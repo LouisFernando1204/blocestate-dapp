@@ -22,12 +22,15 @@ function App() {
     }
     catch (error) {
       console.log(error)
+      console.log("b")
     }
     finally {
       const principal = getCurrentIdentity();
+      console.log(principal)
       if (principal) {
         setConnectedPrincipal(principal)
       }
+      console.log("a")
     }
   };
 
