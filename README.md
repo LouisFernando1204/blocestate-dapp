@@ -1,7 +1,7 @@
 # BlocEstate : The Future of Secure Real Estate Auctions in Indonesia. 🚀
 
 ## ✨ Overview
-Welcome to BlocEstate, a blockchain-based platform for real estate auctions on the ICP network, designed specifically for properties in Indonesia. With 🔐 Plug Wallet integration, BlocEstate ensures enhanced security and ease of use! 🏡🔗📊 Bid on exclusive properties or auction your own real estate with secure, transparent transactions. Tailored for Indonesian users with KYC verification, 🌍🛡️ BlocEstate offers a seamless and trusted auction experience, bringing the future of real estate transactions to you. 🚀
+Welcome to BlocEstate, a blockchain-based platform for real estate auctions on the ICP network, designed specifically for properties in Indonesia. With 🔐 Internet Identity integration, BlocEstate ensures enhanced security and ease of use! 🏡🔗📊 Bid on exclusive properties or auction your own real estate with secure, transparent transactions. Tailored for Indonesian users with KYC verification, 🌍🛡️ BlocEstate offers a seamless and trusted auction experience, bringing the future of real estate transactions to you. 🚀
 
 ## 💡 Features
 - 🏠 Create Auction
@@ -27,7 +27,7 @@ Welcome to BlocEstate, a blockchain-based platform for real estate auctions on t
 - 🖥️ Frontend : ReactJS (Javascript)
 - 🔧 Canister Development : Motoko
 - 🔗 Library : Agent.js
-- 💳 Wallet Integration : Plug Wallet
+- 🔐 Authentication System Integration : Internet Identity
 - 🧩 Component Library : Aceternity UI
 - 🌐 IPFS Provider : Pinata
 - 🎨 Styling : TailwindCSS
